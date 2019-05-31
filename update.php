@@ -58,7 +58,7 @@
                     $sql = "UPDATE pessoa  set nome = ?, endereco = ?, telefone = ?, email = ?, sexo = ? WHERE id = ?";
                     $q = $pdo->prepare($sql);
                     $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$id));
-                    //Banco::desconectar();
+                    Banco::desconectar();
                     // header("Location: index.php");
                     $valido  =  $valido  ? 'true' : 'false';  
                     echo    '[{"valido":'. $valido .'},{"msg":"'. $nome.$endereco.$telefone.$email.$sexo.$id .'"}]';   

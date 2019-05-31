@@ -11,7 +11,7 @@ if(!empty($_GET['id'])){
     $sql = "DELETE FROM pessoa where id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($id));
-    // Banco::desconectar();
+     Banco::desconectar();
     // header("Location: index.php");      
 } 
 ?>

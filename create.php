@@ -9,15 +9,30 @@
         $telefoneErro = null;
         $emailErro = null;      
         $sexoErro = null;
+        $senhaErro = null;
+        $senhaErro2 = null;
 
         $nome = $_POST['nome'];
         $endereco = $_POST['endereco'];
         $telefone = $_POST['telefone'];
         $email = $_POST['email'];
         $sexo = $_POST['sexo'];
+        $senha =  md5($_POST['senha']) ;
 
         //Validaçao dos campos:
         $valido = true;
+        if(empty($_POST['senha']))
+        {
+            $senhaErro = 'Por favor digite  a senha!';
+            $valido = false;
+        }
+
+        if( $_POST['senha'] !=   $_POST['senha2'] )
+        {
+            $senhaErro2 = 'Senhas não coincidem!';
+            $valido = false;
+        }
+
         if(empty($nome))
         {
             $nomeError = 'Por favor digite o seu nome!';
@@ -58,9 +73,9 @@
         {
             $pdo = Banco::conectar();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO pessoa (nome, endereco, telefone, email, sexo) VALUES(?,?,?,?,?)";
+            $sql = "INSERT INTO pessoa (nome, endereco, telefone, email, sexo,senha) VALUES(?,?,?,?,?,?)";
             $q = $pdo->prepare($sql);
-            $q->execute(array($nome,$endereco,$telefone,$email,$sexo));        
+            $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$senha));        
             Banco::desconectar();
             // header("Location: index.php");    
             $valido  =  $valido  ? 'true' : 'false';  
@@ -74,6 +89,9 @@
             $temErroEmailTamanho   =  $emailErro  ? 'true' : 'false';
             $temErroEmailValidade  =  $emailError ? 'true' : 'false';
             $temErroSexo   =  $sexoErro ? 'true' : 'false'; 
+            $temErroSenha   =  $senhaErro ? 'true' : 'false'; 
+            $temErroSenha2   =  $senhaErro2 ? 'true' : 'false';
+            
             echo    '['
                     .'{"valido":'. $valido .'},'                                   
                     .'{"temErro":' . $temErroNome .', "motivo":"' . $nomeError ,'"},'  
@@ -81,7 +99,9 @@
                     .'{"temErro":' . $temErroTelefone .',"motivo":"' . $telefoneErro ,'"},'  
                     .'{"temErro":' . $temErroEmailTamanho .',"motivo":"' . $emailErro ,'"},'  
                     .'{"temErro":' . $temErroEmailValidade .',"motivo":"' . $emailError ,'"},'
-                    .'{"temErro":' . $temErroSexo .',"motivo":"' . $sexoErro ,'"}'   
+                    .'{"temErro":' . $temErroSexo .',"motivo":"' . $sexoErro ,'"},'  
+                    .'{"temErro":' . $temErroSenha .',"motivo":"' . $senhaErro ,'"},' 
+                    .'{"temErro":' . $temErroSenha2 .',"motivo":"' . $senhaErro2 ,'"}'   
                     . ']';
         }
     }else{

@@ -1,7 +1,5 @@
 <?php
-
-class Banco
-{
+class Banco{
     private static $dbNome = 'phpCRUD';
     private static $dbHost = 'localhost';
     private static $dbUsuario = 'root';
@@ -35,5 +33,4 @@ class Banco
         self::$cont = null;
     }
 }
-
 ?>
