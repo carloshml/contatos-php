@@ -30,17 +30,42 @@
          } else  if(   strlen($texto)  <  60)   {
             $textoErroLength = 'texto deve conter ao menos 60 caracteres!';
             $valido = false;           
-         }     
+         } 
+         
+         $imagem = $_FILES['imagem'];  
 
         //Inserindo no Banco:
         if($valido){
             $pdo = Banco::conectar();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            try{          
-              $sql = "INSERT INTO noticia ( id,titulo,texto,tag1,tag2,tag3,id_autor,data_criacao)"
-              ."VALUES(?,?,?,?,?,?,?,?)";
-              $q = $pdo->prepare($sql);                    
-              $q->execute(array($id,$titulo,$texto,$tag1,$tag2,$tag3,$id_autor, date('Y-m-d H:i:s')));  
+            try{  
+              if($imagem != NULL) {  
+                $myfile = fopen($_FILES['imagem']['tmp_name'], "r") or die("Unable to open file!");
+                $myfile = fread($myfile,filesize($_FILES['imagem']['tmp_name']));     
+                $test2 = $_FILES['imagem'];
+                // usermod -a -G sudo www-data
+                // sudo systemctl restart  apache2.service               
+              } else{
+                echo ' sem imagem ';
+              } 
+              
+              $sql = "INSERT INTO noticia(titulo,texto,tag1,tag2,tag3,id_autor,data_criacao,foto)"
+              ." VALUES"
+              ."(:titulo,:texto,:tag1,:tag2,:tag3,:id_autor,:data_criacao,:foto)";
+              $stmt = $pdo->prepare($sql);
+              //  $stmt->bindParam(":file_name", $files->name, PDO::PARAM_STR);
+              $stmt->bindParam(":titulo",  $titulo);
+              $stmt->bindParam(":texto",  $texto);
+              $stmt->bindParam(":tag1",  $tag1);
+              $stmt->bindParam(":tag2",  $tag2);
+              $stmt->bindParam(":tag3",  $tag3);
+              $stmt->bindParam(":id_autor",  $id_autor );
+              $stmt->bindValue(":data_criacao",  date('Y-m-d H:i:s'));
+              $stmt->bindParam(":foto", $myfile, PDO::PARAM_LOB);
+              fclose($myfile);
+            
+              $stmt->execute();     
+
             } catch(PDOException $exception)  {
               echo  "<script type='text/javascript'> console.log('".$exception->getMessage()."')  </script>" ;  
               header("Location: escrever_noticia.php?erro=".$exception."sucesso=".s);             

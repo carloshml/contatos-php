@@ -19,14 +19,21 @@
 		<section  class="container">
 		<h1 class="text-center">Notícias </h1>		
 		<?php	
-         session_start();
+				session_start();
+			//	echo exec('whoami'); 
+				$_SESSION["uploads_base_url"]=dirname(__FILE__); 
 				$erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
 				include 'config/banco.php';
 				$pdo = Banco::conectar();
-				$sql = 'SELECT * FROM noticia ORDER BY id DESC limit 5';
-				foreach($pdo->query($sql)as $row){ 
+				$sql = 'SELECT noticia.*, pessoa.nome as nome_autor  FROM noticia inner join pessoa  on   noticia.id_autor =  pessoa.id  ORDER BY id DESC limit 5';
+				foreach($pdo->query($sql)as $row){  
+					$dataCriacao = $row['data_criacao'];
 						echo '<h4 class="text-center">' .$row['titulo'] .' </h4>	 '   ;
+
+						echo "<img src='getImagem.php?PicNum=$row->PES_ID' \">"; 
+						echo '<p>'. $row['foto'].'</p>';
 						echo '<p>'. $row['texto'].'</p>';
+						echo '<div class="text-right" > publicado por <strong>  '. $row['nome_autor'] .' </strong> | '. date('d/m/Y', strtotime($dataCriacao)).'</div>';					
 						echo '<h6> <span class="badge badge-secondary">'. $row['tag1'].'</span></h6>';
 						echo '<h6> <span class="badge badge-secondary">'. $row['tag2'].'</span></h6>';
 						echo '<h6> <span class="badge badge-secondary">'. $row['tag3'].'</span></h6>';		 

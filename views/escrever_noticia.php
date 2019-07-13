@@ -55,7 +55,7 @@
                   </div>                  
             <?php endif;?>       
             <h1>Notícias</h1>	
-            <form method="post" action="../modal/salvar_noticia.php" id="formLogin">
+            <form method="post" enctype="multipart/form-data" action="../modal/salvar_noticia.php" id="formLogin">
                 <div>
                    <label for="exampleInputEmail1">Título</label>
                    <input id="titulo"  type="text"  class="form-control" name="titulo"  > 
@@ -63,18 +63,25 @@
                 <div>
                    <label for="exampleInputEmail1">Texto</label>
                    <textarea name="texto"  class="form-control" id="texto" cols="30" rows="10"></textarea>
-                </div>   
+                </div>  
+                
+                <div>
+                    <label for="imagem">Imagem:</label>
+                    <input type="file" name="imagem"/>
+                    <br/>                   
+                </div>
                 <p></p>
                 <div class="form-row">
                         <div class="col">
-                             <input  type="text"  class="form-control" placeholder="tag1" name="tag1" id="tag1" > 
+                             <input  type="text"  class="form-control" maxlength="10" placeholder="tag1" name="tag1" id="tag1" > 
                         </div>
                         <div class="col">
-                              <input  type="text"  class="form-control"  placeholder="tag2" name="tag2" id="tag2" > 
+                              <input  type="text"  class="form-control"  maxlength="10" placeholder="tag2" name="tag2" id="tag2" > 
                         </div>
                         <div class="col">
-                             <input  type="text"  class="form-control" placeholder="tag3" name="tag3" id="tag3" > 
+                             <input  type="text"  class="form-control" maxlength="10" placeholder="tag3" name="tag3" id="tag3" > 
                         </div>
+                        
                         <div class="col text-right">
                               <button   class="btn btn-success " type="submit">salvar</button>
                         </div>
