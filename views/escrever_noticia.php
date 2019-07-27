@@ -30,10 +30,20 @@
                 document.getElementById('texto').value = post.texto;
                 document.getElementById('tag1').value = post.tag1 ;
                 document.getElementById('tag2').value = post.tag2 ;
-                document.getElementById('tag3').value = post.tag3 ;   
+                document.getElementById('tag3').value = post.tag3 ;  
+                
+                if(post.noticia_id){
+                  document.getElementById('noticia_id').value = post.noticia_id ;  
+                }
+
+
+                setTimeout(() => {
+                  console.log(document.getElementById('imagem_file')); 
+                }, 2000);
+
+             
             } 
-        });
-       
+        });       
     </script>
 	</head>
 	<body >
@@ -58,6 +68,7 @@
             <form method="post" enctype="multipart/form-data" action="../modal/salvar_noticia.php" id="formLogin">
                 <div>
                    <label for="exampleInputEmail1">Título</label>
+                   <input type="hidden" id="noticia_id" name="noticia_id" >
                    <input id="titulo"  type="text"  class="form-control" name="titulo"  > 
                 </div>
                 <div>
@@ -67,7 +78,7 @@
                 
                 <div>
                     <label for="imagem">Imagem:</label>
-                    <input type="file" name="imagem"/>
+                    <input id="imagem_file" type="file" name="imagem"/>
                     <br/>                   
                 </div>
                 <p></p>
