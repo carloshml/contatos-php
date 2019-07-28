@@ -7,6 +7,7 @@
          echo '<tr>';
              echo '<th scope="row">'. $row['id'] . '</th>';
          echo '<td>'. $row['nome'] . '</td>';
+         echo '<td>'. $row['login'] . '</td>';
          echo '<td>'. $row['endereco'] . '</td>';
          echo '<td>'. $row['telefone'] . '</td>';
          echo '<td>'. $row['email'] . '</td>';

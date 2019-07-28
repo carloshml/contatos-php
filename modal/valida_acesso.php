@@ -1,10 +1,10 @@
 <?php
     session_start();
     include '../config/banco.php';
-    $usuario = $_POST['usuario'];
+    $login = $_POST['login'];
     $senha = md5($_POST['senha']);
     $pdo = Banco::conectar();
-    $sql = "SELECT * FROM pessoa WHERE nome = '$usuario' AND senha = '$senha'";
+    $sql = "SELECT * FROM pessoa WHERE login = '$login' AND senha = '$senha'";
     $id_usuario = null;
     $nome_usuario = null;
     $email_usuario = null;

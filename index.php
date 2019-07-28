@@ -125,7 +125,7 @@
 														<h3>Já possui uma conta?</h3>
 														<form method="post" action="modal/valida_acesso.php" id="formLogin">
 																		<div class="form-group">
-																			<input type="text" class="form-control" id="campo_usuario" name="usuario" placeholder="Usuário" />
+																			<input type="text" class="form-control" id="campo_usuario" name="login" placeholder="Usuário" />
 																		</div>
 																		<div class="form-group">
 																			<input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" />

@@ -43,6 +43,7 @@
                             $('#erro_email1').html('');                                     
                             $('#erro_email2').html('');                                    
                             $('#erro_sexo').html('');   
+                            $('#erro_login').html('');   
                             $('#erro_senha').html('');  
                             $('#erro_senha2').html('');  
                             if(validacao[1].temErro){
@@ -69,6 +70,9 @@
                             if(validacao[8].temErro){
                                $('#erro_senha2').html(validacao[8].motivo); 
                             } 
+                            if(validacao[9].temErro){
+                               $('#erro_login').html(validacao[9].motivo); 
+                            } 
                           }  
                         }
                     });
@@ -92,7 +96,8 @@
                       $('#in_m_c_telefone').val(''); 
                       $('#in_m_c_email').val(''); 
                       $('#in_m_c_senha').val(''); 
-                      $('#in_m_c_senha2').val('');     
+                      $('#in_m_c_senha2').val(''); 
+                      $('#in_m_c_login').val('');      
                       $('#sexoM').attr('checked', 'checked');
                       $('#erro_nome').html('');                        
                       $('#erro_endereco').html('');                                      
@@ -102,6 +107,7 @@
                       $('#erro_sexo').html(''); 
                       $('#erro_senha').html('');  
                       $('#erro_senha2').html(''); 
+                      $('#erro_login').html(''); 
                       
                 }); 
 
@@ -123,7 +129,8 @@
                                                 $('#erro_enderecoup').html('');                                      
                                                 $('#erro_telefoneup').html('');                                     
                                                 $('#erro_email1up').html('');                                     
-                                                $('#erro_email2up').html('');                                    
+                                                $('#erro_email2up').html('');    
+                                                $('#erro_loginup').html('');                                 
                                                 $('#erro_sexoup').html('');   
                                                 if(validacao[1].temErro){
                                                 $('#erro_nomeup').html(validacao[1].motivo); 
@@ -142,7 +149,10 @@
                                                 }
                                                 if(validacao[6].temErro){
                                                 $('#erro_sexoup').html(validacao[6].motivo); 
-                                                }                                                 
+                                                } 
+                                                if(validacao[7].temErro){
+                                                $('#erro_loginup').html(validacao[7].motivo); 
+                                                }                                                   
                                             } 
                                   }
                               });
@@ -173,6 +183,7 @@
                                    $('#rd_telefone_contato').html(data.telefone); 
                                    $('#rd_email_contato').html(data.email); 
                                    $('#rd_sexo_contato').html(data.sexo);  
+                                   $('#rd_login_contato').html(data.login);  
                                 }
                             });
                         }); 
@@ -191,6 +202,7 @@
                                     console.log(data);
                                    $('#input_id_contato').val(data.id);  
                                    $('#input_nome_contato').val(data.nome);  
+                                   $('#input_login_contato').val(data.login); 
                                    $('#input_endereco_contato').val(data.endereco); 
                                    $('#input_telefone_contato').val(data.telefone); 
                                    $('#input_email_contato').val(data.email); 
@@ -233,6 +245,7 @@
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Nome</th>
+                            <th scope="col">Login</th>
                             <th scope="col">Endereço</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Email</th>
@@ -272,6 +285,13 @@
                         <div class="controls">
                             <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text" placeholder="Nome" required="" value=" ">
                             <span id="erro_nome" class="help-inline text-warning"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Login</label>
+                        <div class="controls">
+                            <input id="in_m_c_login" size="50" class="form-control" name="login" type="text" placeholder="login" required="" value=" ">
+                            <span id="erro_login" class="help-inline text-warning"></span>
                         </div>
                     </div>
                     <div class="control-group ">
@@ -402,6 +422,13 @@
                     </div>
 
                     <div class="control-group">
+                        <label class="control-label">login</label>
+                        <div class="controls">
+                          <label class="carousel-inner" id="rd_login_contato" >    </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
                         <label class="control-label">Endereço</label>
                         <div class="controls">
                           <label class="carousel-inner" id="rd_endereco_contato" >    </label>
@@ -478,7 +505,14 @@
                                         <span id="erro_nomeup" class="help-inline text-warning"></span>
                                     </div>
                           </div>
-                     </div>       
+                     </div>  
+                     <div class="control-group ">
+                        <label class="control-label">login</label>
+                        <div class="controls">
+                            <input size="80"   id="input_login_contato" class="form-control" name="login" type="text" placeholder="login" required=""  >
+                            <span id="erro_loginup" class="help-inline text-warning"></span>
+                        </div>
+                    </div>     
                     <div class="control-group ">
                         <label class="control-label">Endereço</label>
                         <div class="controls">

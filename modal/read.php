@@ -15,6 +15,7 @@
             .'"endereco" : "' .$data['endereco']. '",'
             .'"telefone" : "' .$data['telefone']. '",'
             .'"email" : "' .$data['email']. '",'
+            .'"login" : "' .$data['login']. '",'
             .'"sexo" : "'.$data['sexo'].
             '"}';
        Banco::desconectar();

@@ -1,7 +1,7 @@
 <?php
     include '../config/banco.php';
     session_start();
-    $id_usuario = 	$_SESSION['id_usuario'] ;   
+    $id_usuario = 	$_SESSION['id_usuario'] ;     
     if(!empty($_POST))
     {
         //Acompanha os erros de validação
@@ -127,3 +127,23 @@
         }
     } 
 ?>
+
+<?php
+
+
+    class NoticiaDAO{   
+     
+      public function numeroTotalNoticias(){    
+         $total = null;   
+         $pdo = Banco::conectar();
+         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $sql = "SELECT COUNT(id) as total FROM noticia;"; 
+         $stmt = $pdo->prepare($sql);
+         $stmt->execute(); 
+         $stmt->bindColumn('total', $total);	
+         $stmt->fetch(PDO::FETCH_BOUND); 
+         return $total ;
+         Banco::desconectar();   
+      } 
+  }
+  ?>

@@ -1,4 +1,5 @@
 <?php 
+  include '../modal/salvar_noticia.php';  
   session_start();
   if (!isset($_SESSION['id_usuario'])){
     header("Location: ../index.php?erro=2");
@@ -51,6 +52,17 @@
                               <a class="btn btn-primary btn-lg" href="escrever_noticia.php"> Ir </a>
                             </div> 
                         </div>
+                        <div class="col">
+                            <div class="jumbotron">
+                              <h5> Total de Noticias </h5>  
+                              <a class="btn btn-primary btn-lg" href=""> 
+                                  <?php
+                                  $a = new NoticiaDAO(); 
+                                  echo $a->numeroTotalNoticias();
+                                  ?>  
+                               </a>
+                            </div> 
+                        </div>                        
                </div>                 
             </div>
         </div>    

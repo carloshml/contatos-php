@@ -9,6 +9,7 @@
         $telefoneErro = null;
         $emailErro = null;      
         $sexoErro = null;
+        $loginErro = null;
         $senhaErro = null;
         $senhaErro2 = null;
 
@@ -17,6 +18,7 @@
         $telefone = $_POST['telefone'];
         $email = $_POST['email'];
         $sexo = $_POST['sexo'];
+        $login = $_POST['login'];
         $senha =  md5($_POST['senha']) ;
 
         //Validaçao dos campos:
@@ -42,6 +44,12 @@
         if(empty($endereco))
         {
             $enderecoErro = 'Por favor digite o seu endereço!';
+            $valido = false;
+        }
+
+        if(empty($login))
+        {
+            $loginErro = 'Por favor digite o seu Login!';
             $valido = false;
         }
 
@@ -73,9 +81,9 @@
         {
             $pdo = Banco::conectar();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO pessoa (nome, endereco, telefone, email, sexo,senha) VALUES(?,?,?,?,?,?)";
+            $sql = "INSERT INTO pessoa (nome, endereco, telefone, email, sexo,senha, login) VALUES(?,?,?,?,?,?,?)";
             $q = $pdo->prepare($sql);
-            $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$senha));        
+            $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$senha, $login));        
             Banco::desconectar();
             // header("Location: index.php");    
             $valido  =  $valido  ? 'true' : 'false';  
@@ -91,6 +99,7 @@
             $temErroSexo   =  $sexoErro ? 'true' : 'false'; 
             $temErroSenha   =  $senhaErro ? 'true' : 'false'; 
             $temErroSenha2   =  $senhaErro2 ? 'true' : 'false';
+            $temErroLogin   =  $loginErro ? 'true' : 'false'; 
             
             echo    '['
                     .'{"valido":'. $valido .'},'                                   
@@ -101,7 +110,8 @@
                     .'{"temErro":' . $temErroEmailValidade .',"motivo":"' . $emailError ,'"},'
                     .'{"temErro":' . $temErroSexo .',"motivo":"' . $sexoErro ,'"},'  
                     .'{"temErro":' . $temErroSenha .',"motivo":"' . $senhaErro ,'"},' 
-                    .'{"temErro":' . $temErroSenha2 .',"motivo":"' . $senhaErro2 ,'"}'   
+                    .'{"temErro":' . $temErroSenha2 .',"motivo":"' . $senhaErro2 ,'"},'  
+                    .'{"temErro":' . $temErroLogin .',"motivo":"' . $loginErro ,'"}'  
                     . ']';
         }
     }else{
