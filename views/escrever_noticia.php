@@ -59,12 +59,18 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
     <?php
     if (!empty($_REQUEST['noticia_id'])) {
       $noticiaService = new NoticiaService();
-      $noticia = $noticiaService->findById((int) $_REQUEST['noticia_id']);
-      if ($noticia && !empty($noticia['foto'])) {
-        $foto = is_resource($noticia['foto']) ? stream_get_contents($noticia['foto']) : $noticia['foto'];
-        echo "<img class='center' height='150' src='data:image/jpeg;base64," . base64_encode($foto) . "' />";
-      }
+      $noticias = $noticiaService->findById($_REQUEST['noticia_id']);
 
+      if ($noticias) {
+        foreach ($noticias as $noticia) {
+          $foto = $noticia['foto'];
+          if (is_resource($foto)) {
+            $foto = stream_get_contents($foto);
+          }
+          $base64 = base64_encode($foto);
+          echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
+        }
+      }
       echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_update.php" id="formNoticia">
       <input type="hidden" name="noticia_id" id="noticia_id">
 

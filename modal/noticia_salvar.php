@@ -37,8 +37,6 @@ if (!empty($_POST)) {
 
   $imagem = $_FILES['imagem'];
   $id_autor = $_SESSION['id_usuario'];
-
-
   //Inserindo no Banco:
   if ($valido) {
     $pdo = Banco::conectar();
@@ -46,11 +44,6 @@ if (!empty($_POST)) {
     try {
       if ($imagem['type'] != NULL) {
         $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
-
-
-        // $test2 = $_FILES['imagem'];
-        // usermod -a -G sudo www-data
-        // sudo systemctl restart  apache2.service               
       } else {
         echo ' sem imagem ';
       }
