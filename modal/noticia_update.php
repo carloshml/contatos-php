@@ -40,8 +40,16 @@ if (!empty($erros)) {
     exit;
 }
 
+$imagem = $_FILES['imagem'];
 // Atualização no banco
 try {
+
+    if ($imagem['type'] != NULL) {
+        $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
+    } else {
+        echo ' sem imagem ';
+    }
+
     $pdo = Banco::conectar();
     $sql = "UPDATE noticia SET
                 titulo = :titulo,
@@ -49,9 +57,15 @@ try {
                 tag1 = :tag1,
                 tag2 = :tag2,
                 tag3 = :tag3,
-                id_autor = :id_autor,
-                data_criacao = :data_criacao
-            WHERE id = :noticia_id";
+                id_autor = :id_autor,                
+                data_criacao = :data_criacao";
+
+    if ($fileHandle !== null) {
+        $sql .= ", foto = :foto  ";
+    }
+
+    $sql .= " WHERE id = :noticia_id";
+
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":titulo", $titulo);
@@ -62,7 +76,16 @@ try {
     $stmt->bindParam(":id_autor", $id_autor, PDO::PARAM_INT);
     $stmt->bindValue(":data_criacao", date('Y-m-d H:i:s'));
     $stmt->bindValue(":noticia_id", $noticia_id, PDO::PARAM_INT);
+    if ($fileHandle !== null) {
+        $stmt->bindParam(":foto", $fileHandle, PDO::PARAM_LOB);
+    }
+
     $stmt->execute();
+
+    if ($fileHandle) {
+        fclose($fileHandle);
+    }
+
 
     Banco::desconectar();
 
