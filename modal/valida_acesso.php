@@ -1,28 +1,37 @@
 <?php
-    session_start();
-    include '../config/banco.php';
-    $login = $_POST['login'];
-    $senha = md5($_POST['senha']);
-    $pdo = Banco::conectar();
-    $sql = "SELECT * FROM pessoa WHERE login = '$login' AND senha = '$senha'";
-    $id_usuario = null;
-    $nome_usuario = null;
-    $email_usuario = null;
+session_start();
+require_once('../config/banco.php');
 
-    foreach($pdo->query($sql)as $row) { 
-        $id_usuario =  $row['id'];
-        $nome_usuario =  $row['nome'];
-        $email_usuario =  $row['email'];   
+
+$login = $_POST['login'] ?? '';
+$senha = $_POST['senha'] ?? '';
+
+
+
+$db = new Banco();
+$pdo = $db->conectar();
+
+
+try {
+    $senha_md5 = md5($senha);
+    $stmt = $pdo->prepare("SELECT id, nome, email FROM pessoa WHERE login = :login AND senha = :senha");
+    $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+    $stmt->bindParam(':senha', $senha_md5, PDO::PARAM_STR);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($usuario) {
+        $_SESSION['id_usuario'] = $usuario['id'];
+        $_SESSION['nome_usuario'] = $usuario['nome'];
+        $_SESSION['email_usuario'] = $usuario['email'];
+        header('Location: ../views/home.php');
+    } else {
+        header('Location: ../index.php?erro=1');
     }
-    if ( $id_usuario != null){
-        // acesso correto do usuario ;
-        // criando variáveis globais seesion
-        $_SESSION['id_usuario'] = $row['id'];
-        $_SESSION['nome_usuario'] = $row['nome'];
-        $_SESSION['email_usuario'] = $row['email'];
-        header("Location: ../views/home.php");
-    }else{
-        header("Location: ../index.php?erro=1");
-    }
-    Banco::desconectar(); 
+
+
+} catch (PDOException $e) {
+    echo 'Erro ao tentar logar: ' . htmlspecialchars($e->getMessage());
+}
+
+Banco::desconectar();
 ?>

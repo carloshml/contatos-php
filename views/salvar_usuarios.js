@@ -198,9 +198,6 @@ $(document).ready(function () {
     });
   }
 
-  $('#btn_fechar_update_contato').click(function () {
-    load('../index.php');
-  });
 
   $('#btn_salvar_contato_sem_session').click(function () {
     console.log($('#form_contato').serialize());
@@ -209,12 +206,13 @@ $(document).ready(function () {
       method: 'post',
       data: $('#form_contato').serialize(),
       success: function (data) {
+        console.log('  data :::: ', data);
         //console.log('modal criacao',data );
         const validacao = JSON.parse(data);
-        console.log('modal criacao', validacao);
+        console.log('modal criacao :::::: ', validacao);
         if (validacao[0].valido) {
-
-          load('../index.php');
+          var url = '../index.php';
+          window.location.href = url;
         } else {
           $('#erro_nome').html('');
           $('#erro_endereco').html('');

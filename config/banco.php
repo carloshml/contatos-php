@@ -1,36 +1,40 @@
 <?php
-class Banco{
+
+class Banco
+{
     private static $dbNome = 'phpCRUD';
     private static $dbHost = 'localhost';
     private static $dbUsuario = 'root';
     private static $dbSenha = '';
-    
+    private static $charset = 'utf8mb4';
+
     private static $cont = null;
-    
-    public function __construct() 
+
+    function __construct()
     {
-        die('A função Init nao é permitido!');
+        // Protected constructor to prevent instantiation
     }
-    
+
     public static function conectar()
     {
-        if(null == self::$cont)
-        {
-            try
-            {
-                self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbNome, self::$dbUsuario, self::$dbSenha); 
-            }
-            catch(PDOException $exception)
-            {
-                die($exception->getMessage());
+        if (self::$cont === null) {
+            $dsn = "mysql:host=" . self::$dbHost . ";dbname=" . self::$dbNome . ";charset=" . self::$charset;
+
+            try {
+                self::$cont = new PDO($dsn, self::$dbUsuario, self::$dbSenha, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                ]);
+            } catch (PDOException $e) {
+                // Consider logging this instead in production
+                die('Erro ao conectar com o banco: ' . $e->getMessage());
             }
         }
+
         return self::$cont;
     }
-    
+
     public static function desconectar()
     {
         self::$cont = null;
     }
 }
-?>

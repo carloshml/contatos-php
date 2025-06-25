@@ -42,7 +42,7 @@
                       <label class="control-label">Nome</label>
                       <div class="controls">
                         <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text"
-                          placeholder="Nome" required="" value=" ">
+                          placeholder="Nome" required="" value="">
                         <span id="erro_nome" class="help-inline text-warning"></span>
                       </div>
                     </div>
@@ -50,7 +50,7 @@
                       <label class="control-label">Login</label>
                       <div class="controls">
                         <input id="in_m_c_login" size="50" class="form-control" name="login" type="text"
-                          placeholder="login" required="" value=" ">
+                          placeholder="login" required="" value="">
                         <span id="erro_login" class="help-inline text-warning"></span>
                       </div>
                     </div>
@@ -58,7 +58,7 @@
                       <label class="control-label">Endereço</label>
                       <div class="controls">
                         <input id="in_m_c_endereco" size="80" class="form-control" name="endereco" type="text"
-                          placeholder="Endereço" required="" value=" ">
+                          placeholder="Endereço" required="" value="">
                         <span id="erro_endereco" class="help-inline text-warning"></span>
                       </div>
                     </div>
