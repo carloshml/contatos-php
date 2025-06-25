@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('../modal/salvar_noticia.php');
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../index.php?erro=2");

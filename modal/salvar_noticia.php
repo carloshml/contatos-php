@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../config/banco.php');
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../index.php?erro=2");
@@ -35,6 +36,8 @@ if (!empty($_POST)) {
   }
 
   $imagem = $_FILES['imagem'];
+  $id_autor = $_SESSION['id_usuario'];
+
 
   //Inserindo no Banco:
   if ($valido) {
