@@ -55,33 +55,21 @@
 					"texto" => $texto,
 					"tag1" => $tag1,
 					"tag2" => $tag2,
-					"tag3" => $tag3,
+					"tag3" => $tag3					 
 				);
-
-
-
 				if (isset($_SESSION['id_usuario'])) {
-					echo "<form method='post' enctype='multipart/form-data' action='views/escrever_noticia.php?erro=Edite Sua Noticia&teste=" . json_encode($array) . "' id='formLogin'>";
+					echo "<form method='post' enctype='multipart/form-data' action='views/escrever_noticia.php?noticia_id=".$noticia_id."&erro=Edite Sua Noticia&teste=";
+					echo json_encode($array) . "' id='formLogin'>";
 					echo "<button   class='btn btn-success' type='submit'>editar</button>";
 					echo "</form >";
 				}
-
 				if ($foto) {
-
-
-
 					if (is_resource($foto)) {
 						$foto = stream_get_contents($foto);
 					}
-
 					$base64 = base64_encode($foto);
-
-
 					echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
-
-
 				}
-
 				echo "<h1>";
 				print $titulo;
 				echo "</h1>";

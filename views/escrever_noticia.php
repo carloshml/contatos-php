@@ -2,104 +2,98 @@
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../index.php?erro=2");
+  exit;
 }
+
+require_once('../DAO/noticia.php');
+
 $id_usuario = $_SESSION['id_usuario'];
-//require '../modal/salvar_noticia.php';
-$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
-$sucesso = isset($_GET['sucesso']) ? $_GET['sucesso'] : 0;
-$teste = isset($_GET['teste']) ? $_GET['teste'] : 0;
+$erro = $_GET['erro'] ?? 0;
+$sucesso = $_GET['sucesso'] ?? 0;
+$teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta charset="utf-8">
-  <!-- Latest compiled and minified CSS -->
+  <title>Escrever Notícia</title>
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <title> Escrever Noticia </title>
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
+
   <script type="text/javascript">
-    const post = <?php echo $teste ?>;
-    const erro = <?php echo json_encode($erro) ?>;
+    const post = <?= $teste ?>;
+    const erro = <?= json_encode($erro) ?>;
+
     document.addEventListener("DOMContentLoaded", function () {
-      if ((erro !== null) && (erro !== undefined) && (erro !== 0) && (erro !== '0')) {
-        console.log(document.getElementById('titulo'));
-        document.getElementById('titulo').value = post.titulo;
-        document.getElementById('texto').value = post.texto;
-        document.getElementById('tag1').value = post.tag1;
-        document.getElementById('tag2').value = post.tag2;
-        document.getElementById('tag3').value = post.tag3;
-
-        if (post.noticia_id) {
-          document.getElementById('noticia_id').value = post.noticia_id;
-        }
-
-
-        setTimeout(() => {
-          console.log(document.getElementById('imagem_file'));
-        }, 2000);
-
-
+      if (erro && erro !== '0') {
+        if (post.titulo) document.getElementById('titulo').value = post.titulo;
+        if (post.texto) document.getElementById('texto').value = post.texto;
+        if (post.tag1) document.getElementById('tag1').value = post.tag1;
+        if (post.tag2) document.getElementById('tag2').value = post.tag2;
+        if (post.tag3) document.getElementById('tag3').value = post.tag3;
+        if (post.noticia_id) document.getElementById('noticia_id').value = post.noticia_id;
       }
-    });       
+    });
   </script>
 </head>
 
 <body>
   <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="home.php">
-      Noticias Atuais
-    </a>
-    <a class="nav-link" href="../modal/logout.php">sair</a>
+    <a class="navbar-brand" href="home.php">Notícias Atuais</a>
+    <a class="nav-link" href="../modal/logout.php">Sair</a>
   </nav>
-  <section class="container">
-    <?php if (!empty($sucesso)): ?>
-      <div class="alert alert-success" role="alert">
-        Noticia Salva!
-      </div>
+
+  <section class="container mt-4">
+    <?php if ($sucesso): ?>
+      <div class="alert alert-success">Notícia salva com sucesso!</div>
     <?php endif; ?>
-    <?php if ($erro != '0'): ?>
-      <div class="alert alert-warning" role="alert">
-        <?= $erro ?>
-      </div>
+
+    <?php if ($erro && $erro !== '0'): ?>
+      <div class="alert alert-warning"><?= htmlspecialchars($erro) ?></div>
     <?php endif; ?>
-    <h1>Notícias</h1>
-    <form method="post" enctype="multipart/form-data" action="../modal/salvar_noticia.php" id="formLogin">
-      <div>
-        <label for="exampleInputEmail1">Título</label>
-        <input type="hidden" id="noticia_id" name="noticia_id">
-        <input id="titulo" type="text" class="form-control" name="titulo">
-      </div>
-      <div>
-        <label for="exampleInputEmail1">Texto</label>
-        <textarea name="texto" class="form-control" id="texto" cols="30" rows="10"></textarea>
+
+    <h1>Notícia</h1>
+
+    <?php
+    if (!empty($_REQUEST['noticia_id'])) {
+      $noticiaService = new NoticiaService();
+      $noticia = $noticiaService->findById((int) $_REQUEST['noticia_id']);
+      if ($noticia && !empty($noticia['foto'])) {
+        $foto = is_resource($noticia['foto']) ? stream_get_contents($noticia['foto']) : $noticia['foto'];
+        echo "<img class='center' height='150' src='data:image/jpeg;base64," . base64_encode($foto) . "' />";
+      }
+    }
+    ?>
+
+    <form method="post" enctype="multipart/form-data" action="../modal/noticia_salvar.php" id="formNoticia">
+      <input type="hidden" name="noticia_id" id="noticia_id">
+
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" class="form-control" required>
       </div>
 
-      <div>
-        <label for="imagem">Imagem:</label>
-        <input id="imagem_file" type="file" name="imagem" />
-        <br />
+      <div class="form-group">
+        <label for="texto">Texto</label>
+        <textarea name="texto" id="texto" class="form-control" rows="8" required></textarea>
       </div>
-      <p></p>
+
+      <div class="form-group">
+        <label for="imagem_file">Imagem</label>
+        <input type="file" id="imagem_file" name="imagem" class="form-control-file">
+      </div>
+
       <div class="form-row">
-        <div class="col">
-          <input type="text" class="form-control" maxlength="10" placeholder="tag1" name="tag1" id="tag1">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" maxlength="10" placeholder="tag2" name="tag2" id="tag2">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" maxlength="10" placeholder="tag3" name="tag3" id="tag3">
-        </div>
-
+        <div class="col"><input type="text" name="tag1" id="tag1" class="form-control" maxlength="10"
+            placeholder="Tag 1"></div>
+        <div class="col"><input type="text" name="tag2" id="tag2" class="form-control" maxlength="10"
+            placeholder="Tag 2"></div>
+        <div class="col"><input type="text" name="tag3" id="tag3" class="form-control" maxlength="10"
+            placeholder="Tag 3"></div>
         <div class="col text-right">
-          <button class="btn btn-success " type="submit">salvar</button>
+          <button type="submit" class="btn btn-success">Salvar</button>
         </div>
       </div>
     </form>
