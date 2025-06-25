@@ -44,61 +44,33 @@ if (!empty($_POST)) {
     $pdo = Banco::conectar();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     try {
+      if ($imagem['type'] != NULL) {
+        $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
 
-      if ($noticia_id) {
-        $sql = "UPDATE noticia set 
-                titulo= :titulo,
-                texto= :texto,
-                tag1= :tag1,
-                tag2= :tag2,
-                tag3= :tag3,
-                id_autor= :id_autor,
-                data_criacao= :data_criacao
-                 where noticia.id = :noticia_id; ";
-        $stmt = $pdo->prepare($sql);
-        //  $stmt->bindParam(":file_name", $files->name, PDO::PARAM_STR);   
 
-        $stmt->bindParam(":titulo", $titulo);
-        $stmt->bindParam(":texto", $texto);
-        $stmt->bindParam(":tag1", $tag1);
-        $stmt->bindParam(":tag2", $tag2);
-        $stmt->bindParam(":tag3", $tag3);
-        $stmt->bindParam(":id_autor", $id_autor);
-        $stmt->bindValue(":data_criacao", date('Y-m-d H:i:s'));
-        $stmt->bindValue(":noticia_id", $noticia_id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        // $test2 = $_FILES['imagem'];
+        // usermod -a -G sudo www-data
+        // sudo systemctl restart  apache2.service               
       } else {
-        if ($imagem['type'] != NULL) {
-          $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
-
-
-          // $test2 = $_FILES['imagem'];
-          // usermod -a -G sudo www-data
-          // sudo systemctl restart  apache2.service               
-        } else {
-          echo ' sem imagem ';
-        }
-        $sql = "INSERT INTO noticia(titulo,texto,tag1,tag2,tag3,id_autor,data_criacao,foto)"
-          . " VALUES"
-          . "(:titulo,:texto,:tag1,:tag2,:tag3,:id_autor,:data_criacao,:foto);";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":titulo", $titulo);
-        $stmt->bindParam(":texto", $texto);
-        $stmt->bindParam(":tag1", $tag1);
-        $stmt->bindParam(":tag2", $tag2);
-        $stmt->bindParam(":tag3", $tag3);
-        $stmt->bindParam(":id_autor", $id_autor);
-        $stmt->bindValue(":data_criacao", date('Y-m-d H:i:s'));
-        $stmt->bindParam(":foto", $fileHandle, PDO::PARAM_LOB);
-        $stmt->execute();
-
-        if ($fileHandle) {
-          fclose($fileHandle);
-        }
-
+        echo ' sem imagem ';
       }
+      $sql = "INSERT INTO noticia(titulo,texto,tag1,tag2,tag3,id_autor,data_criacao,foto)"
+        . " VALUES"
+        . "(:titulo,:texto,:tag1,:tag2,:tag3,:id_autor,:data_criacao,:foto);";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(":titulo", $titulo);
+      $stmt->bindParam(":texto", $texto);
+      $stmt->bindParam(":tag1", $tag1);
+      $stmt->bindParam(":tag2", $tag2);
+      $stmt->bindParam(":tag3", $tag3);
+      $stmt->bindParam(":id_autor", $id_autor);
+      $stmt->bindValue(":data_criacao", date('Y-m-d H:i:s'));
+      $stmt->bindParam(":foto", $fileHandle, PDO::PARAM_LOB);
+      $stmt->execute();
 
+      if ($fileHandle) {
+        fclose($fileHandle);
+      }
     } catch (PDOException $exception) {
       echo "<script type='text/javascript'> console.log('" . $exception->getMessage() . "')  </script>";
       header("Location: escrever_noticia.php?erro=" . $exception . "sucesso=" . s);

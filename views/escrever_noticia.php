@@ -64,10 +64,8 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
         $foto = is_resource($noticia['foto']) ? stream_get_contents($noticia['foto']) : $noticia['foto'];
         echo "<img class='center' height='150' src='data:image/jpeg;base64," . base64_encode($foto) . "' />";
       }
-    }
-    ?>
 
-    <form method="post" enctype="multipart/form-data" action="../modal/noticia_salvar.php" id="formNoticia">
+      echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_update.php" id="formNoticia">
       <input type="hidden" name="noticia_id" id="noticia_id">
 
       <div class="form-group">
@@ -96,7 +94,46 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
           <button type="submit" class="btn btn-success">Salvar</button>
         </div>
       </div>
-    </form>
+    </form>';
+    }
+
+
+    if (empty($_REQUEST['noticia_id'])) {
+      echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_salvar.php" id="formNoticia">
+      <input type="hidden" name="noticia_id" id="noticia_id">
+
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="texto">Texto</label>
+        <textarea name="texto" id="texto" class="form-control" rows="8" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="imagem_file">Imagem</label>
+        <input type="file" id="imagem_file" name="imagem" class="form-control-file">
+      </div>
+
+      <div class="form-row">
+        <div class="col"><input type="text" name="tag1" id="tag1" class="form-control" maxlength="10"
+            placeholder="Tag 1"></div>
+        <div class="col"><input type="text" name="tag2" id="tag2" class="form-control" maxlength="10"
+            placeholder="Tag 2"></div>
+        <div class="col"><input type="text" name="tag3" id="tag3" class="form-control" maxlength="10"
+            placeholder="Tag 3"></div>
+        <div class="col text-right">
+          <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+      </div>
+    </form>';
+    }
+
+    ?>
+
+
   </section>
 </body>
 
