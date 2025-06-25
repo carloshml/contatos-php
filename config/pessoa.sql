@@ -11,7 +11,8 @@ CREATE TABLE `pessoa` (
   `endereco` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `telefone` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
-  `sexo` varchar(1) COLLATE utf8_unicode_ci NOT NULL
+  `sexo` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
+  `senha` VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -26,6 +27,7 @@ CREATE TABLE `noticia` (
   `tag2` varchar(10),
   `tag3` varchar(10),
   `id_autor` int(11) ,
+  `foto`  TEXT   NOT NULL,
   `data_criacao` TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
  
