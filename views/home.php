@@ -1,5 +1,6 @@
 <?php
-require_once('../modal/salvar_noticia.php');
+session_start();
+require_once('../DAO/noticia.php');
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../index.php?erro=2");
 }
@@ -60,7 +61,7 @@ $email_usuario = $_SESSION['email_usuario'];
           <h5> Total de Noticias </h5>
           <a class="btn btn-primary btn-lg" href="">
             <?php
-            $a = new NoticiaDAO();
+            $a = new NoticiaService();
             echo $a->numeroTotalNoticias();
             ?>
           </a>
