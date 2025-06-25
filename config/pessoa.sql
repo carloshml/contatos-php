@@ -27,7 +27,7 @@ CREATE TABLE `noticia` (
   `tag2` varchar(10),
   `tag3` varchar(10),
   `id_autor` int(11) ,
-  `foto`  TEXT   NOT NULL,
+  `foto`   LONGBLOB,
   `data_criacao` TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
  
