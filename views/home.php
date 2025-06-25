@@ -1,6 +1,6 @@
 <?php
-include '../modal/salvar_noticia.php';
 session_start();
+require_once('../modal/salvar_noticia.php');
 if (!isset($_SESSION['id_usuario'])) {
   header("Location: ../index.php?erro=2");
 }
@@ -65,6 +65,14 @@ $email_usuario = $_SESSION['email_usuario'];
             echo $a->numeroTotalNoticias();
             ?>
           </a>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <div class="jumbotron">
+          <h5>Ver as Notícias</h5>
+          <a class="btn btn-primary btn-lg" href="../index.php"> Ir </a>
         </div>
       </div>
     </div>

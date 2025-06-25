@@ -31,7 +31,8 @@
 		$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 		include 'config/banco.php';
 		try {
-			$pdo = Banco::conectar();
+			$db = new Banco();
+			$pdo = $db->conectar();
 			$sql = "SELECT noticia.id as noticia_id , data_criacao,titulo, texto, tag1,tag2,tag3, foto,"
 				. "pessoa.nome as nome_autor  "
 				. "FROM noticia inner join pessoa  on   noticia.id_autor =  pessoa.id  ORDER BY noticia.id DESC limit 5;";
@@ -59,14 +60,25 @@
 
 
 
-				if ($_SESSION['id_usuario'] !== null) {
+				if (isset($_SESSION['id_usuario'])) {
 					echo "<form method='post' enctype='multipart/form-data' action='views/escrever_noticia.php?erro=Edite Sua Noticia&teste=" . json_encode($array) . "' id='formLogin'>";
 					echo "<button   class='btn btn-success' type='submit'>editar</button>";
 					echo "</form >";
 				}
 
 				if ($foto) {
-					echo "<img class='center' height='150' src='data:image/jpeg;base64," . base64_encode($foto) . "' />";
+
+
+
+					if (is_resource($foto)) {
+						$foto = stream_get_contents($foto);
+					}
+
+					$base64 = base64_encode($foto);
+
+
+					echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
+
 
 				}
 

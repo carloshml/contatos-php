@@ -1,6 +1,8 @@
 <?php
-include '../config/banco.php';
-session_start();
+require_once('../config/banco.php');
+if (!isset($_SESSION['id_usuario'])) {
+  header("Location: ../index.php?erro=2");
+}
 $id_usuario = $_SESSION['id_usuario'];
 if (!empty($_POST)) {
   //Acompanha os erros de validação
@@ -66,7 +68,7 @@ if (!empty($_POST)) {
       } else {
         if ($imagem['type'] != NULL) {
           $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
-          fclose($fileHandle);
+
 
           // $test2 = $_FILES['imagem'];
           // usermod -a -G sudo www-data
@@ -78,8 +80,6 @@ if (!empty($_POST)) {
           . " VALUES"
           . "(:titulo,:texto,:tag1,:tag2,:tag3,:id_autor,:data_criacao,:foto);";
         $stmt = $pdo->prepare($sql);
-        //  $stmt->bindParam(":file_name", $files->name, PDO::PARAM_STR);   
-
         $stmt->bindParam(":titulo", $titulo);
         $stmt->bindParam(":texto", $texto);
         $stmt->bindParam(":tag1", $tag1);
@@ -88,9 +88,11 @@ if (!empty($_POST)) {
         $stmt->bindParam(":id_autor", $id_autor);
         $stmt->bindValue(":data_criacao", date('Y-m-d H:i:s'));
         $stmt->bindParam(":foto", $fileHandle, PDO::PARAM_LOB);
-
-
         $stmt->execute();
+
+        if ($fileHandle) {
+          fclose($fileHandle);
+        }
 
       }
 
