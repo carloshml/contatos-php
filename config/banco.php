@@ -3,7 +3,7 @@ class Banco{
     private static $dbNome = 'phpCRUD';
     private static $dbHost = 'localhost';
     private static $dbUsuario = 'root';
-    private static $dbSenha = 'Camelos?2';
+    private static $dbSenha = '';
     
     private static $cont = null;
     
