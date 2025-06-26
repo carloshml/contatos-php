@@ -66,7 +66,7 @@ if (!empty($_POST)) {
       }
     } catch (PDOException $exception) {
       echo "<script type='text/javascript'> console.log('" . $exception->getMessage() . "')  </script>";
-      header("Location: escrever_noticia.php?erro=" . $exception . "sucesso=" . s);
+      header("Location: escrever_noticia.php?erro=" . $exception . "sucesso=0");
       die("Database connection failed: " . $exception->getMessage());
     }
     Banco::desconectar();
