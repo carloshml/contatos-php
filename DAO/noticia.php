@@ -36,6 +36,20 @@ class NoticiaService
 
     }
 
+    public function findByIdUsuario($id_usuario)
+    {
+        $total = 0;
+        $sql = " SELECT COUNT(id)  as total FROM noticia "
+            . " where noticia.id_autor = :id_usuario ;";
+        $stmt = $this->link->prepare($sql);
+        $stmt->bindColumn('total', $total);
+        $stmt->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->fetch(PDO::FETCH_BOUND);
+        return $total;
+
+    }
+
     public function numeroTotalNoticias()
     {
         $total = null;
@@ -71,7 +85,7 @@ class NoticiaService
         }
     }
 
-      public function getAllNoticia()
+    public function getAllNoticia()
     {
         try {
             $sql = "SELECT noticia.id as noticia_id , data_criacao,titulo, texto, tag1,tag2,tag3, foto,"

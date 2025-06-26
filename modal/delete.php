@@ -1,17 +1,22 @@
 <?php
-require_once __DIR__ . '/../config/banco.php';
+require_once __DIR__ . '/../DAO/usuarios.php';
+require_once __DIR__ . '/../DAO/noticia.php';
 
 $id = 0;
 
 if (!empty($_GET['id'])) {
     $id = $_REQUEST['id'];
-    //Delete do banco:
-    $pdo = Banco::conectar();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "DELETE FROM pessoa where id = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($id));
-    Banco::desconectar();
-    // header("Location: index.php");      
+
+
+    $noticiaService = new NoticiaService();
+    $noticiaQTD = (int) $noticiaService->findByIdUsuario($id);
+
+
+    if ($noticiaQTD == 0) {
+        $usuarioService = new UsuarioService();
+        $usuarioService->deleteById($id);
+    } else {
+        echo 'Usuáro tem noticias associadas!';
+    }
 }
 ?>
