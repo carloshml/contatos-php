@@ -101,14 +101,37 @@ $noticias = $noticiaService->get5Noticia();
 			right: 1rem;
 			background-color: red;
 		}
+
+		.form-btn-adm {
+			top: 7rem;
+			right: 1rem;
+			z-index: 10;
+		}
+
+		.btn-adm {
+			position: absolute;
+			right: 1rem;
+			background-color: #005588;
+		}
 	</style>
 </head>
 
 <body>
 	<?php if (isset($_SESSION['id_usuario'])): ?>
-		<form method="post" enctype="multipart/form-data" action="../modal/logout.php" class="form-btn-sair">
+		<form method="post" enctype="multipart/form-data" action="modal/logout.php" class="form-btn-sair">
 			<button class="btn btn-sm btn-primary rounded-circle btn-sair " type="submit" title="Sair">
 				<i class="fas fa-sign-out-alt"></i>
+			</button>
+		</form>
+
+		<form method="post" enctype="multipart/form-data" action="views/home.php" class="form-btn-adm">
+			<button class="btn btn-sm btn-primary  btn-adm  " type="submit" title="Gerenciar Sistema">
+				<div>
+					Oi, <?= $_SESSION['nome_usuario'] ?>
+				</div>
+				<div>
+					Gerenciar
+				</div>
 			</button>
 		</form>
 	<?php endif; ?>
@@ -195,12 +218,6 @@ $noticias = $noticiaService->get5Noticia();
 				login
 				</a>
 				<a  class="pad-4" href="views/usuario-inscrevase.php">Inscrever-se</a>
-			</footer>';
-	} else {
-		echo '<ffooter class="bg-light py-3 fixed-bottom border-top text-right">
-				<a  class="pad-4"  href="views/home.php"  class="" >
-				bem vindo ' . $_SESSION['nome_usuario'] .
-			'</a> 
 			</footer>';
 	}
 	?>
