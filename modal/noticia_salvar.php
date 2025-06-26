@@ -72,7 +72,7 @@ if (!empty($_POST)) {
     Banco::desconectar();
     $sucesso = 'sucesso';
     echo "<script type='text/javascript'> console.log('sucesso')  </script>";
-    header("Location: ../views/escrever_noticia.php?erro=0&sucesso=1&teste=" . json_encode($_POST));
+    header("Location: ../views/escrever_noticia.php?erro=0&sucesso=1&noticia=" . json_encode($_POST));
   } else {
 
     $valido = $valido ? 'true' : 'false';
@@ -81,20 +81,20 @@ if (!empty($_POST)) {
     $temErroTag = $tagError ? true : false;
     $temTextoErroLength = $textoErroLength ? true : false;
     if ($temErroTitulo) {
-      echo "<script type='text/javascript'> console.log('tem erro no titulo')  </script>";
-      header("Location: ../views/escrever_noticia.php?erro=" . $tituloError . "&sucesso=0&teste=" . json_encode($_POST));
+
+      header("Location: ../views/escrever_noticia.php?erro=" . $tituloError . "&sucesso=0&noticia=" . json_encode($_POST));
     }
     if ($temErroTexto) {
-      echo "<script type='text/javascript'> console.log('tem erro no texto')  </script>";
-      header("Location: ../views/escrever_noticia.php?erro=" . $textoErro . "&sucesso=0&teste=" . json_encode($_POST));
+
+      header("Location: ../views/escrever_noticia.php?erro=" . $textoErro . "&sucesso=0&noticia=" . json_encode($_POST));
     }
     if ($temErroTag) {
-      echo "<script type='text/javascript'> console.log('tem erro no texto')  </script>";
-      header("Location: ../views/escrever_noticia.php?erro=" . $tagError . "&sucesso=0&teste=" . json_encode($_POST));
+
+      header("Location: ../views/escrever_noticia.php?erro=" . $tagError . "&sucesso=0&noticia=" . json_encode($_POST));
     }
     if ($temTextoErroLength) {
-      echo "<script type='text/javascript'> console.log('tem erro na quantidade do texto')  </script>";
-      header("Location: ../views/escrever_noticia.php?erro=" . $textoErroLength . "&sucesso=0&teste=" . json_encode($_POST));
+
+      header("Location: ../views/escrever_noticia.php?erro=" . $textoErroLength . "&sucesso=0&noticia=" . json_encode($_POST));
     }
   }
 }
