@@ -4,6 +4,10 @@
   margin-right: auto;
 }
 
+.invalid-feedback-local {
+  color: red
+}
+
 .pad-4 {
   padding: 4px;
 }

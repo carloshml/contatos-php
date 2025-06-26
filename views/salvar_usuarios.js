@@ -16,9 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
         success: function (data) {
           //console.log('modal criacao',data );
           const validacao = JSON.parse(data);
-          console.log('modal criacao', validacao);
+          console.log('modal criacao :: ', validacao);
+
+          console.log('modal criacao :: ', validacao[4]);
+          console.log('modal criacao :: ', $('#erro_email1'));
           if (validacao[0].valido) {
-            $('#meuModal').modal('hide');
+            $('#createModal ').modal('hide');
+            $('#viewModal').modal('hide');
+            $('#deleteModal').modal('hide');
+            $('#editModal').modal('hide');
             atualizarContatos();
           } else {
             $('#erro_nome').html('');
@@ -66,9 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
       $.ajax({
         url: '../modal/delete.php',
         method: 'get',
-        data: 'id=' + this.getAttribute('idDeletar'),
+        data: { id: $('#btn-deletar-contato-concluir').attr('data-id') },
         success: function (data) {
-          $('#modal_delete').modal('hide');
+          if (data) {
+            escreverMensagemNaTela('Tem noticias associadas!');
+            return;
+          }
+          $('#createModal ').modal('hide');
+          $('#viewModal').modal('hide');
+          $('#deleteModal').modal('hide');
+          $('#editModal').modal('hide');
           atualizarContatos();
         }
       });
@@ -105,7 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log('up up up', data);
           const validacao = JSON.parse(data);
           if (validacao[0].valido) {
-            $('#modal_update').modal('hide');
+            $('#createModal ').modal('hide');
+            $('#viewModal').modal('hide');
+            $('#deleteModal').modal('hide');
+            $('#editModal').modal('hide');
             atualizarContatos();
           } else {
             $('#erro_nomeup').html('');
@@ -209,19 +225,10 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error(response.message);
           return;
         }
-        // Clear existing DataTable and reinitialize
-        if ($.fn.DataTable.isDataTable('#contactsTable')) {
-          $('#contactsTable').DataTable({
-            responsive: true,
-            language: {
-              url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
-            }
-          }).destroy();
-        }
-
         $('#todo_contatos').empty();
-
         // Add new rows
+
+
         $.each(response.data, function (index, contact) {
           $('#todo_contatos').append(`
                     <tr>
@@ -237,13 +244,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 `);
         });
 
-        // Reinitialize DataTable
-        $('#contactsTable').DataTable({
-          responsive: true,
-          language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
-          }
-        });
+        if ($.fn.DataTable.isDataTable('#contactsTable')) {
+          $('#contactsTable').DataTable().destroy();
+          $('#contactsTable').DataTable({
+            responsive: true,
+            language: {
+              url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+            }
+          });
+        }
+
 
         // Set up event handlers
         $('.btn_apaga_contato').click(function () {

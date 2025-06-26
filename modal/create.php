@@ -16,7 +16,7 @@ if (!empty($_POST)) {
     $endereco = $_POST['endereco'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
-    $sexo = $_POST['sexo'];
+    $sexo = $_POST['sexo'] ?? null;
     $login = $_POST['login'];
     $senha = md5($_POST['senha']);
 

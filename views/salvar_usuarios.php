@@ -20,7 +20,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
   <!-- DataTables CSS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
+  <script language="JavaScript" src="funcoes-sistema.js"></script>
   <!-- Custom CSS -->
   <style>
     :root {
@@ -131,6 +131,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
   <!-- Your Custom JS -->
   <script language="JavaScript" src="salvar_usuarios.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
@@ -147,6 +148,7 @@ if (!isset($_SESSION['id_usuario'])) {
       </div>
     </div>
   </nav>
+  <div id="mensagem-upload" class="text-center"></div>
 
   <!-- Main Content -->
   <div class="container py-4">
@@ -200,32 +202,32 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="col-md-6">
               <label for="in_m_c_nome" class="form-label">Nome</label>
               <input type="text" class="form-control" id="in_m_c_nome" name="nome" required>
-              <div id="erro_nome" class="invalid-feedback"></div>
+              <div id="erro_nome" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="in_m_c_login" class="form-label">Login</label>
               <input type="text" class="form-control" id="in_m_c_login" name="login" required>
-              <div id="erro_login" class="invalid-feedback"></div>
+              <div id="erro_login" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-12">
               <label for="in_m_c_endereco" class="form-label">Endereço</label>
               <input type="text" class="form-control" id="in_m_c_endereco" name="endereco" required>
-              <div id="erro_endereco" class="invalid-feedback"></div>
+              <div id="erro_endereco" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="in_m_c_telefone" class="form-label">Telefone</label>
               <input type="text" class="form-control" id="in_m_c_telefone" name="telefone" required>
-              <div id="erro_telefone" class="invalid-feedback"></div>
+              <div id="erro_telefone" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="in_m_c_email" class="form-label">Email</label>
               <input type="email" class="form-control" id="in_m_c_email" name="email" required>
-              <div id="erro_email1" class="invalid-feedback"></div>
-              <div id="erro_email2" class="invalid-feedback"></div>
+              <div id="erro_email1" class="invalid-feedback-local"></div>
+              <div id="erro_email2" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
@@ -236,8 +238,8 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="col-md-6">
               <label for="in_m_c_senha2" class="form-label">Repita a Senha</label>
               <input type="password" class="form-control" id="in_m_c_senha2" name="senha2" required>
-              <div id="erro_senha" class="invalid-feedback"></div>
-              <div id="erro_senha2" class="invalid-feedback"></div>
+              <div id="erro_senha" class="invalid-feedback-local"></div>
+              <div id="erro_senha2" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-12">
@@ -252,7 +254,7 @@ if (!isset($_SESSION['id_usuario'])) {
                   <label class="form-check-label" for="sexoF">Feminino</label>
                 </div>
               </div>
-              <div id="erro_sexo" class="invalid-feedback"></div>
+              <div id="erro_sexo" class="invalid-feedback-local"></div>
             </div>
           </form>
         </div>
@@ -353,32 +355,32 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="col-md-6">
               <label for="input_nome_contato" class="form-label">Nome</label>
               <input type="text" class="form-control" id="input_nome_contato" name="nome" required>
-              <div id="erro_nomeup" class="invalid-feedback"></div>
+              <div id="erro_nomeup" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="input_login_contato" class="form-label">Login</label>
               <input type="text" class="form-control" id="input_login_contato" name="login" required>
-              <div id="erro_loginup" class="invalid-feedback"></div>
+              <div id="erro_loginup" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-12">
               <label for="input_endereco_contato" class="form-label">Endereço</label>
               <input type="text" class="form-control" id="input_endereco_contato" name="endereco" required>
-              <div id="erro_enderecoup" class="invalid-feedback"></div>
+              <div id="erro_enderecoup" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="input_telefone_contato" class="form-label">Telefone</label>
               <input type="text" class="form-control" id="input_telefone_contato" name="telefone" required>
-              <div id="erro_telefoneup" class="invalid-feedback"></div>
+              <div id="erro_telefoneup" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-md-6">
               <label for="input_email_contato" class="form-label">Email</label>
               <input type="email" class="form-control" id="input_email_contato" name="email" required>
-              <div id="erro_email1up" class="invalid-feedback"></div>
-              <div id="erro_email2up" class="invalid-feedback"></div>
+              <div id="erro_email1up" class="invalid-feedback-local"></div>
+              <div id="erro_email2up" class="invalid-feedback-local"></div>
             </div>
 
             <div class="col-12">
@@ -393,7 +395,7 @@ if (!isset($_SESSION['id_usuario'])) {
                   <label class="form-check-label" for="sexo_F">Feminino</label>
                 </div>
               </div>
-              <div id="erro_sexoup" class="invalid-feedback"></div>
+              <div id="erro_sexoup" class="invalid-feedback-local"></div>
             </div>
           </form>
         </div>
