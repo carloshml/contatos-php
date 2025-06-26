@@ -25,14 +25,11 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
   <script type="text/javascript">
     const post = <?= $teste ?>;
     const erro = <?= json_encode($erro) ?>;
-    const sucesso = <?= $sucesso ?>;     
+    const sucesso = <?= $sucesso ?>;   
   </script>
   <script language="JavaScript" src="funcoes-sistema.js"></script>
   <script language="JavaScript" src="escrever_noticia.js"></script>
-
-
 </head>
-
 <body>
   <div id="mensagem-upload" class="text-center"></div>
   <nav class="navbar navbar-light bg-light">
@@ -46,20 +43,7 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       <div class="alert alert-warning"><?= htmlspecialchars($erro) ?></div>
     <?php endif; ?>
     <?php
-    if (!empty($_REQUEST['noticia_id'])) {
-      $noticiaService = new NoticiaService();
-      $noticias = $noticiaService->findById($_REQUEST['noticia_id']);
-      if ($noticias) {
-        foreach ($noticias as $noticia) {
-          $foto = $noticia['foto'];
-          if (is_resource($foto)) {
-            $foto = stream_get_contents($foto);
-          }
-          $base64 = base64_encode($foto);
-          echo "<div><span>Imagem Atual</span></div>";
-          echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
-        }
-      }
+    if (!empty($_REQUEST['noticia_id'])) {    
       echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_update.php" id="formNoticia">
       <input type="hidden" name="noticia_id" id="noticia_id">
 
