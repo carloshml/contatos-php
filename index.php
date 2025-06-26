@@ -113,58 +113,80 @@ $noticias = $noticiaService->get5Noticia();
 		</form>
 	<?php endif; ?>
 
-	<div class="container py-5">
-		<?php foreach ($noticias as $row):
-			$foto_content = $row['foto'];
-			if (is_resource($foto_content)) {
-				$foto_content = stream_get_contents($foto_content);
-			}
-			$base64 = $foto_content ? base64_encode($foto_content) : '';
-			$array = [
-				"noticia_id" => $row['noticia_id'],
-				"titulo" => $row['titulo'],
-				"texto" => $row['texto'],
-				"tag1" => $row['tag1'],
-				"tag2" => $row['tag2'],
-				"tag3" => $row['tag3']
-			];
-			?>
-			<div class="news-card">
-				<?php if (isset($_SESSION['id_usuario'])): ?>
-					<form method="post" enctype="multipart/form-data"
-						action="views/escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&teste=<?= urlencode(json_encode($array)) ?>"
-						class="form-edit-btn">
-						<button class="btn btn-sm btn-primary rounded-circle edit-btn" type="submit" title="Editar Notícia">
-							<i class="fas fa-edit"></i>
-						</button>
-					</form>
-				<?php endif; ?>
 
-				<?php if ($base64): ?>
-					<img class="news-image" src="data:image/jpeg;base64,<?= $base64 ?>"
-						alt="<?= htmlspecialchars($row['titulo']) ?>">
-				<?php endif; ?>
 
-				<div class="p-4">
-					<h2 class="news-title"><?= htmlspecialchars($row['titulo']) ?></h2>
-					<div class="news-content"><?= nl2br(htmlspecialchars($row['texto'])) ?></div>
 
-					<div class="mt-3 mb-4">
-						<?php foreach (['tag1', 'tag2', 'tag3'] as $tag):
-							if (!empty($row[$tag])): ?>
-								<span class="tag-badge"><?= htmlspecialchars($row[$tag]) ?></span>
-							<?php endif;
-						endforeach; ?>
-					</div>
+	<div class=" container py-5 ">
+		<div class="row">
+			<?php foreach ($noticias as $row):
+				$foto_content = $row['foto'];
+				if (is_resource($foto_content)) {
+					$foto_content = stream_get_contents($foto_content);
+				}
+				$base64 = $foto_content ? base64_encode($foto_content) : '';
 
-					<div class="author-info text-end">
-						Publicado por <strong><?= htmlspecialchars($row['nome_autor']) ?></strong> |
-						<?= date('d/m/Y', strtotime($row['data_criacao'])) ?>
+				$dataCriacao = date('d/m/Y', strtotime($row['data_criacao']));
+
+				$array = [
+					"noticia_id" => $row['noticia_id'],
+					"titulo" => $row['titulo'],
+					"texto" => $row['texto'],
+					"tag1" => $row['tag1'],
+					"tag2" => $row['tag2'],
+					"tag3" => $row['tag3'],
+					"nomeAutor" => $row['nome_autor'],
+					"dataCriacao" => $dataCriacao
+				];
+				?>
+
+				<div class="col-md-6 mb-4">
+					<div class="news-card">
+						<?php if (isset($_SESSION['id_usuario'])): ?>
+							<form method="post" enctype="multipart/form-data"
+								action="views/escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&noticia=<?= urlencode(json_encode($array)) ?>"
+								class="form-edit-btn">
+								<button class="btn btn-sm btn-primary rounded-circle edit-btn" type="submit"
+									title="Editar Notícia">
+									<i class="fas fa-edit"></i>
+								</button>
+							</form>
+						<?php endif; ?>
+
+						<?php if ($base64): ?>
+							<img class="news-image" src="data:image/jpeg;base64,<?= $base64 ?>"
+								alt="<?= htmlspecialchars($row['titulo']) ?>">
+						<?php endif; ?>
+
+						<div class="p-4">
+							<h2 class="news-title">
+
+								<a
+									href="views/noticia-read.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&noticia=<?= urlencode(json_encode($array)) ?>">
+									<?= htmlspecialchars($row['titulo']) ?> </a>
+
+							</h2>
+							<div class="news-content"><?= nl2br(htmlspecialchars($row['texto'])) ?></div>
+
+							<div class="mt-3 mb-4">
+								<?php foreach (['tag1', 'tag2', 'tag3'] as $tag):
+									if (!empty($row[$tag])): ?>
+										<span class="tag-badge"><?= htmlspecialchars($row[$tag]) ?></span>
+									<?php endif;
+								endforeach; ?>
+							</div>
+
+							<div class="author-info text-end">
+								Publicado por <strong><?= htmlspecialchars($row['nome_autor']) ?></strong> |
+								<?= date('d/m/Y', strtotime($row['data_criacao'])) ?>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		<?php endforeach; ?>
+
+			<?php endforeach; ?>
+		</div>
 	</div>
+
 
 	<?php
 	if (!isset($_SESSION['id_usuario'])) {
