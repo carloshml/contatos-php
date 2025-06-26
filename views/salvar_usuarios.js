@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
   $('#meuModal').on('shown.bs.modal', function () {
     $('#meuInput').trigger('focus')
   })
@@ -93,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#erro_senha').html('');
       $('#erro_senha2').html('');
       $('#erro_login').html('');
-
     });
 
     $('#btn_concluir_update_contato').click(function () {
@@ -142,113 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
-
-
-    function atualizarContatos() {
-      $.ajax({
-        url: '../controllers/listar-usuarios.php',
-        dataType: 'json',
-        success: function (response) {
-          if (response.error) {
-            console.error(response.message);
-            return;
-          }
-
-          // Clear existing DataTable and reinitialize
-          if ($.fn.DataTable.isDataTable('#contactsTable')) {
-            $('#contactsTable').DataTable().destroy();
-          }
-
-          $('#todo_contatos').empty();
-
-          // Add new rows
-          $.each(response.data, function (index, contact) {
-            $('#todo_contatos').append(`
-                    <tr>
-                        <td>${contact.id}</td>
-                        <td>${contact.nome}</td>
-                        <td>${contact.login}</td>
-                        <td>${contact.endereco}</td>
-                        <td>${contact.telefone}</td>
-                        <td>${contact.email}</td>
-                        <td>${contact.sexo}</td>
-                        <td>${contact.actions}</td>
-                    </tr>
-                `);
-          });
-
-          // Reinitialize DataTable
-          $('#contactsTable').DataTable({
-            responsive: true,
-            language: {
-              url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
-            }
-          });
-
-          // Set up event handlers
-          $('.btn_apaga_contato').click(function () {
-            const id_contato = this.id.split('_')[1];
-            $('#deleteContactName').text($(this).closest('tr').find('td:eq(1)').text());
-            $('#btn-deletar-contato-concluir').attr('data-id', id_contato);
-          });
-
-          $('.btn_ler_contato').click(function () {
-            const id_contato = this.id.split('_')[1];
-            $.ajax({
-              url: '../modal/read.php',
-              method: 'GET',
-              data: { id: id_contato },
-              dataType: 'json',
-              success: function (data) {
-                $('#rd_nome_contato').text(data.nome);
-                $('#rd_endereco_contato').text(data.endereco);
-                $('#rd_telefone_contato').text(data.telefone);
-                $('#rd_email_contato').text(data.email);
-                $('#rd_sexo_contato').text(data.sexo === 'M' ? 'Masculino' : 'Feminino');
-                $('#rd_login_contato').text(data.login);
-              },
-              error: function (xhr, status, error) {
-                console.error('Error loading contact:', error);
-              }
-            });
-          });
-
-          $('.btn_update_contato').click(function () {
-            const id_contato = this.id.split('_')[1];
-            $.ajax({
-              url: '../modal/read.php',
-              method: 'GET',
-              data: { id: id_contato },
-              dataType: 'json',
-              success: function (data) {
-                $('#btn_concluir_update_contato').attr('data-id', id_contato);
-                $('#input_id_contato').val(data.id);
-                $('#input_nome_contato').val(data.nome);
-                $('#input_login_contato').val(data.login);
-                $('#input_endereco_contato').val(data.endereco);
-                $('#input_telefone_contato').val(data.telefone);
-                $('#input_email_contato').val(data.email);
-                if (data.sexo === "M") {
-                  $('#sexo_M').prop('checked', true);
-                } else {
-                  $('#sexo_F').prop('checked', true);
-                }
-              },
-              error: function (xhr, status, error) {
-                console.error('Error loading contact for edit:', error);
-              }
-            });
-          });
-        },
-        error: function (xhr, status, error) {
-          console.error('AJAX Error:', status, error);
-        }
-      });
-    }
-
-
-
-
 
     $('#btn_salvar_contato_sem_session').click(function () {
       console.log($('#form_contato').serialize());
@@ -305,8 +196,117 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
-
     atualizarContatos();
   });
+
+
+  function atualizarContatos() {
+    $.ajax({
+      url: '../controllers/listar-usuarios.php',
+      dataType: 'json',
+      success: function (response) {
+        if (response.error) {
+          console.error(response.message);
+          return;
+        }
+        // Clear existing DataTable and reinitialize
+        if ($.fn.DataTable.isDataTable('#contactsTable')) {
+          $('#contactsTable').DataTable({
+            responsive: true,
+            language: {
+              url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+            }
+          }).destroy();
+        }
+
+        $('#todo_contatos').empty();
+
+        // Add new rows
+        $.each(response.data, function (index, contact) {
+          $('#todo_contatos').append(`
+                    <tr>
+                        <td>${contact.id}</td>
+                        <td>${contact.nome}</td>
+                        <td>${contact.login}</td>
+                        <td>${contact.endereco}</td>
+                        <td>${contact.telefone}</td>
+                        <td>${contact.email}</td>
+                        <td>${contact.sexo}</td>
+                        <td>${contact.actions}</td>
+                    </tr>
+                `);
+        });
+
+        // Reinitialize DataTable
+        $('#contactsTable').DataTable({
+          responsive: true,
+          language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+          }
+        });
+
+        // Set up event handlers
+        $('.btn_apaga_contato').click(function () {
+          const id_contato = this.id.split('_')[1];
+          $('#deleteContactName').text($(this).closest('tr').find('td:eq(1)').text());
+          $('#btn-deletar-contato-concluir').attr('data-id', id_contato);
+        });
+
+        $('.btn_ler_contato').click(function () {
+          const id_contato = this.id.split('_')[1];
+          $.ajax({
+            url: '../modal/read.php',
+            method: 'GET',
+            data: { id: id_contato },
+            dataType: 'json',
+            success: function (data) {
+              $('#rd_nome_contato').text(data.nome);
+              $('#rd_endereco_contato').text(data.endereco);
+              $('#rd_telefone_contato').text(data.telefone);
+              $('#rd_email_contato').text(data.email);
+              $('#rd_sexo_contato').text(data.sexo === 'M' ? 'Masculino' : 'Feminino');
+              $('#rd_login_contato').text(data.login);
+            },
+            error: function (xhr, status, error) {
+              console.error('Error loading contact:', error);
+            }
+          });
+        });
+
+        $('.btn_update_contato').click(function () {
+          const id_contato = this.id.split('_')[1];
+          $.ajax({
+            url: '../modal/read.php',
+            method: 'GET',
+            data: { id: id_contato },
+            dataType: 'json',
+            success: function (data) {
+              $('#btn_concluir_update_contato').attr('data-id', id_contato);
+              $('#input_id_contato').val(data.id);
+              $('#input_nome_contato').val(data.nome);
+              $('#input_login_contato').val(data.login);
+              $('#input_endereco_contato').val(data.endereco);
+              $('#input_telefone_contato').val(data.telefone);
+              $('#input_email_contato').val(data.email);
+              if (data.sexo === "M") {
+                $('#sexo_M').prop('checked', true);
+              } else {
+                $('#sexo_F').prop('checked', true);
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error('Error loading contact for edit:', error);
+            }
+          });
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX Error:', status, error);
+      }
+    });
+  }
+
+
+
 
 });
