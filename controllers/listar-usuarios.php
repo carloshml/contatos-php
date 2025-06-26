@@ -1,5 +1,5 @@
 <?php
-include '../config/banco.php';
+require_once __DIR__ . '/../config/banco.php';
 header('Content-Type: application/json');
 
 try {

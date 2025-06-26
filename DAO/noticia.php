@@ -1,5 +1,5 @@
 <?php
-require_once('../config/banco.php');
+require_once __DIR__ . '/../config/banco.php';
 class NoticiaService
 {
 
@@ -46,6 +46,29 @@ class NoticiaService
         $stmt->fetch(PDO::FETCH_BOUND);
         Banco::desconectar();
         return $total;
+    }
+
+    public function get5Noticia()
+    {
+        try {
+            $sql = "SELECT noticia.id as noticia_id , data_criacao,titulo, texto, tag1,tag2,tag3, foto,"
+                . "pessoa.nome as nome_autor  "
+                . "FROM noticia inner join pessoa  on   noticia.id_autor =  pessoa.id  ORDER BY noticia.id DESC limit 5;";
+            $stmt = $this->link->prepare($sql);
+            $stmt->bindColumn('data_criacao', $data_criacao);
+            $stmt->bindColumn('tag1', $tag1);
+            $stmt->bindColumn('tag2', $tag2);
+            $stmt->bindColumn('tag3', $tag3);
+            $stmt->bindColumn('titulo', $titulo);
+            $stmt->bindColumn('texto', $texto);
+            $stmt->bindColumn('noticia_id', $noticia_id);
+            $stmt->bindColumn('foto', $foto, PDO::PARAM_LOB);
+            $stmt->bindColumn('nome_autor', $nome_autor);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
     }
 }
 ?>

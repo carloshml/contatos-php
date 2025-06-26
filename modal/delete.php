@@ -1,9 +1,9 @@
 <?php
-include '../config/banco.php';
+require_once __DIR__ . '/../config/banco.php';
 
 $id = 0;
 
-if(!empty($_GET['id'])){
+if (!empty($_GET['id'])) {
     $id = $_REQUEST['id'];
     //Delete do banco:
     $pdo = Banco::conectar();
@@ -11,8 +11,7 @@ if(!empty($_GET['id'])){
     $sql = "DELETE FROM pessoa where id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($id));
-     Banco::desconectar();
+    Banco::desconectar();
     // header("Location: index.php");      
-} 
+}
 ?>
- 

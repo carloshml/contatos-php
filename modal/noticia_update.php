@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../config/banco.php');
+require_once __DIR__ . '/../config/banco.php';
 
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../index.php?erro=2");
