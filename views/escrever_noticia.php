@@ -22,25 +22,14 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
   <link rel="stylesheet" href="../assets/css/style.css">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
-  <script language="JavaScript" src="funcoes-sistema.js"></script>
   <script type="text/javascript">
     const post = <?= $teste ?>;
     const erro = <?= json_encode($erro) ?>;
-    const sucesso = <?= $sucesso ?>;
-    document.addEventListener("DOMContentLoaded", function () {
-      if (sucesso === 1) {
-        escreverMensagemNaTela('Notícia salva com sucesso!');
-      }
-      if (erro && erro !== '0') {
-        if (post.titulo) document.getElementById('titulo').value = post.titulo;
-        if (post.texto) document.getElementById('texto').value = post.texto;
-        if (post.tag1) document.getElementById('tag1').value = post.tag1;
-        if (post.tag2) document.getElementById('tag2').value = post.tag2;
-        if (post.tag3) document.getElementById('tag3').value = post.tag3;
-        if (post.noticia_id) document.getElementById('noticia_id').value = post.noticia_id;
-      }
-    });
+    const sucesso = <?= $sucesso ?>;     
   </script>
+  <script language="JavaScript" src="funcoes-sistema.js"></script>
+  <script language="JavaScript" src="escrever_noticia.js"></script>
+
 
 </head>
 
@@ -67,6 +56,7 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
             $foto = stream_get_contents($foto);
           }
           $base64 = base64_encode($foto);
+          echo "<div><span>Imagem Atual</span></div>";
           echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
         }
       }
@@ -84,8 +74,11 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       </div>
 
       <div class="form-group">
-        <label for="imagem_file">Imagem</label>
-        <input type="file" id="imagem_file" name="imagem" class="form-control-file">
+        <label for="imagem_file">Nova Imagem</label>
+        <input type="file" id="imagem_file" name="imagem" class="form-control-file" accept="image/*">
+        <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
+          <img id="imagePreview" src="#" alt="Preview" style="max-height: 200px; max-width: 100%;"/>
+        </div>
       </div>
 
       <div class="form-row">
@@ -116,8 +109,11 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       </div>
 
       <div class="form-group">
-        <label for="imagem_file">Imagem</label>
-        <input type="file" id="imagem_file" name="imagem" class="form-control-file">
+        <label for="imagem_file">Imagem Nova</label>
+        <input type="file" id="imagem_file" name="imagem" class="form-control-file" accept="image/*">
+        <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
+          <img id="imagePreview" src="#" alt="Preview" style="max-height: 200px; max-width: 100%;"/>
+        </div>
       </div>
 
       <div class="form-row">
