@@ -7,19 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
   $(document).ready(function () {
-    $('#btn_salvar_contato').click(function () {
-      console.log($('#form_contato').serialize());
+    $('#btn_salvar_contato').click(function () {    
       $.ajax({
         url: '../modal/create.php',
         method: 'post',
         data: $('#form_contato').serialize(),
-        success: function (data) {
-          //console.log('modal criacao',data );
-          const validacao = JSON.parse(data);
-          console.log('modal criacao :: ', validacao);
-
-          console.log('modal criacao :: ', validacao[4]);
-          console.log('modal criacao :: ', $('#erro_email1'));
+        success: function (data) {         
+          const validacao = JSON.parse(data);         
           if (validacao[0].valido) {
             $('#createModal ').modal('hide');
             $('#viewModal').modal('hide');
@@ -108,14 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $('#btn_concluir_update_contato').click(function () {
-      const idContato = this.getAttribute('idUpdate');
-      console.log(' updatate  M>>> ', 'id=' + idContato + '&' + $('#form_contato_update').serialize());
+      const idContato = this.getAttribute('idUpdate');   
       $.ajax({
-        url: '../modal/update.php',
+        url: '../modal/usuario-update.php',
         method: 'post',
         data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
         success: function (data) {
-          console.log('up up up', data);
+          
           const validacao = JSON.parse(data);
           if (validacao[0].valido) {
             $('#createModal ').modal('hide');
@@ -158,16 +151,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $('#btn_salvar_contato_sem_session').click(function () {
-      console.log($('#form_contato').serialize());
+     
       $.ajax({
-        url: '../modal/create.php',
+        url: '../modal/usuario-create.php',
         method: 'post',
         data: $('#form_contato').serialize(),
         success: function (data) {
-          console.log('  data :::: ', data);
-          //console.log('modal criacao',data );
+        
           const validacao = JSON.parse(data);
-          console.log('modal criacao :::::: ', validacao);
+       
           if (validacao[0].valido) {
             var url = '../index.php';
             window.location.href = url;
@@ -265,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.btn_ler_contato').click(function () {
           const id_contato = this.id.split('_')[1];
           $.ajax({
-            url: '../modal/read.php',
+            url: '../modal/usuario-by-id.php',
             method: 'GET',
             data: { id: id_contato },
             dataType: 'json',

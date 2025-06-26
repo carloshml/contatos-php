@@ -31,5 +31,15 @@ class UsuarioService
 
     }
 
+
+    public function finById($id)
+    {
+        $stmt = $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT id,nome, login, endereco, telefone,  email, sexo FROM pessoa WHERE id = ?";
+        $stmt = $this->link->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
