@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
         escreverMensagemNaTela('Notícia salva com sucesso!');
     }
     if (erro && erro !== '0') {
-        if (post.titulo) document.getElementById('titulo').value = post.titulo;
-        if (post.texto) document.getElementById('texto').value = post.texto;
-        if (post.tag1) document.getElementById('tag1').value = post.tag1;
-        if (post.tag2) document.getElementById('tag2').value = post.tag2;
-        if (post.tag3) document.getElementById('tag3').value = post.tag3;
-        if (post.noticia_id) document.getElementById('noticia_id').value = post.noticia_id;
+        if (noticia.titulo) document.getElementById('titulo').value = noticia.titulo;
+        if (noticia.texto) document.getElementById('texto').value = noticia.texto;
+        if (noticia.tag1) document.getElementById('tag1').value = noticia.tag1;
+        if (noticia.tag2) document.getElementById('tag2').value = noticia.tag2;
+        if (noticia.tag3) document.getElementById('tag3').value = noticia.tag3;
+        if (noticia.noticia_id) document.getElementById('noticia_id').value = noticia.noticia_id;
     }
 
     function loadNoticiaData(noticiaId) {

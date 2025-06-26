@@ -115,7 +115,7 @@ $noticia = $_GET['noticia'] ?? '{}';
 <body>
   <nav class="navbar navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="home.php">Notícias Atuais</a>
+      <a class="navbar-brand" href="../index.php">Notícias Atuais</a>
       <?php if (isset($_SESSION['id_usuario'])): ?>
         <a class="btn btn-outline-danger" href="../modal/logout.php">
           <i class="fas fa-sign-out-alt"></i> Sair

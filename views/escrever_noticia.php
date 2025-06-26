@@ -10,7 +10,7 @@ require_once('../DAO/noticia.php');
 $id_usuario = $_SESSION['id_usuario'];
 $erro = $_GET['erro'] ?? 0;
 $sucesso = $_GET['sucesso'] ?? 0;
-$teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
+$noticia = $_GET['noticia'] ?? '{}';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,7 +23,7 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-    const post = <?= $teste ?>;
+    const noticia = <?= $noticia ?>;
     const erro = <?= json_encode($erro) ?>;
     const sucesso = <?= $sucesso ?>;   
   </script>
