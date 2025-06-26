@@ -23,60 +23,7 @@ $email_usuario = $_SESSION['email_usuario'];
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Custom CSS -->
-  <style>
-    :root {
-      --primary-color: #4361ee;
-      --secondary-color: #3f37c9;
-      --accent-color: #4cc9f0;
-      --light-color: #f8f9fa;
-      --dark-color: #212529;
-    }
-
-    body {
-      background-color: #f5f7fb;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .navbar {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background: white !important;
-    }
-
-    .dashboard-card {
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-      background: white;
-      height: 100%;
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-icon {
-      font-size: 2rem;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .welcome-card {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      border-radius: 12px;
-    }
-
-    .count-badge {
-      background-color: var(--accent-color);
-      color: white;
-      font-size: 1.2rem;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>

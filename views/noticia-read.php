@@ -21,58 +21,7 @@ $noticia = $_GET['noticia'] ?? '{}';
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --primary-color: #4361ee;
-      --secondary-color: #3f37c9;
-      --accent-color: #4cc9f0;
-    }
 
-    body {
-      background-color: #f8f9fa;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .news-container {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .news-title {
-      color: var(--primary-color);
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    .news-content {
-      line-height: 1.8;
-      color: #495057;
-      white-space: pre-line;
-    }
-
-    .news-image {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-    }
-
-    .tag-badge {
-      background-color: var(--accent-color);
-      color: white;
-      margin-right: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-weight: 500;
-    }
-
-    .author-info {
-      color: #6c757d;
-      font-size: 0.9rem;
-      text-align: right;
-      margin-top: 2rem;
-    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javascript">
@@ -110,12 +59,15 @@ $noticia = $_GET['noticia'] ?? '{}';
     });
   </script>
   <script language="JavaScript" src="noticia-read.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
   <nav class="navbar navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="../index.php">Notícias Atuais</a>
+      <a class="navbar-brand fw-bold" href="../index.php">
+        <i class="fas fa-newspaper me-2"></i>Notícias Atuais
+      </a>
       <?php if (isset($_SESSION['id_usuario'])): ?>
         <a class="btn btn-outline-danger" href="../modal/logout.php">
           <i class="fas fa-sign-out-alt"></i> Sair

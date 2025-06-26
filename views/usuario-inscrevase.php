@@ -5,23 +5,24 @@
   <meta charset="utf-8">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <title>Contatos-PHP</title>
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
+  <title>Noticias</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="../assets/js/bootstrap.min.js"></script>
   <script language="JavaScript" src="salvar_usuarios.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="home.php">
-      Agenda
-    </a>
-    <a class="nav-link" href="../modal/logout.php">sair</a>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="../index.php">
+        <i class="fas fa-address-book me-2"></i> Notícias Atuais - Novo Usuário
+      </a>
+    </div>
   </nav>
   <div class="container">
     <div class="modal-dialog" role="document">

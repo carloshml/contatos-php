@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 require_once('../DAO/noticia.php');
-
+$nome_usuario = $_SESSION['nome_usuario'];
 $id_usuario = $_SESSION['id_usuario'];
 $erro = $_GET['erro'] ?? 0;
 $sucesso = $_GET['sucesso'] ?? 0;
@@ -19,9 +19,12 @@ $noticia = $_GET['noticia'] ?? '{}';
   <meta charset="utf-8">
   <title>Escrever Notícia</title>
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script type="text/javascript">
     const noticia = <?= $noticia ?>;
     const erro = <?= json_encode($erro) ?>;
@@ -29,21 +32,32 @@ $noticia = $_GET['noticia'] ?? '{}';
   </script>
   <script language="JavaScript" src="funcoes-sistema.js"></script>
   <script language="JavaScript" src="escrever_noticia.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-  <div id="mensagem-upload" class="text-center"></div>
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="home.php">Notícias Atuais</a>
-    <a class="nav-link" href="../modal/logout.php">Sair</a>
-  </nav>
-  <h1>Notícia</h1>
 
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="home.php">
+        <i class="fas fa-newspaper me-2"></i>Notícias Atuais - Escreva ou Edite
+      </a>
+      <div class="d-flex align-items-center">
+        <span class="me-3 d-none d-sm-inline"><?= $nome_usuario ?></span>
+        <a class="btn btn-outline-danger" href="../modal/logout.php">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div id="mensagem-upload" class="text-center"></div>
   <section class="container mt-4">
+    <h1> Escreva Sua Notícia</h1>
     <?php if ($erro && $erro !== '0'): ?>
       <div class="alert alert-warning"><?= htmlspecialchars($erro) ?></div>
     <?php endif; ?>
     <?php
-    if (!empty($_REQUEST['noticia_id'])) {    
+    if (!empty($_REQUEST['noticia_id'])) {
       echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_update.php" id="formNoticia">
       <input type="hidden" name="noticia_id" id="noticia_id">
 

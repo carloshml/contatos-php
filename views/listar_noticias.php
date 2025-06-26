@@ -4,6 +4,7 @@ require_once('../DAO/noticia.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 $noticiaService = new NoticiaService();
 $noticias = $noticiaService->getAllNoticia();
+$nome_usuario = $_SESSION['nome_usuario'];
 ?>
 
 <!DOCTYPE html>
@@ -17,120 +18,23 @@ $noticias = $noticiaService->getAllNoticia();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --accent-color: #4cc9f0;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .news-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .news-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-        .news-title {
-            color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .news-content {
-            line-height: 1.8;
-            color: #495057;
-        }
-
-        .tag-badge {
-            background-color: var(--accent-color);
-            color: white;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 500;
-        }
-
-        .author-info {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        form {
-            position: relative !important;
-        }
-
-        .form-edit-btn {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            z-index: 10;
-        }
-
-        .edit-btn {
-            position: absolute;
-        }
-
-        .form-btn-sair {
-            top: 4rem;
-            right: 1rem;
-            z-index: 10;
-        }
-
-        .btn-sair {
-            position: absolute;
-            right: 1rem;
-            background-color: red;
-        }
-
-        .form-btn-adm {
-            top: 7rem;
-            right: 1rem;
-            z-index: 10;
-        }
-
-        .btn-adm {
-            position: absolute;
-            right: 1rem;
-            background-color: #005588;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light py-3">
         <div class="container">
-            <a class="navbar-brand" href="home.php">Notícias Atuais</a>
-            <?php if (isset($_SESSION['id_usuario'])): ?>
+            <a class="navbar-brand fw-bold" href="home.php">
+                <i class="fas fa-newspaper me-2"></i>Notícias Atuais - Todas as Noticias
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="me-3 d-none d-sm-inline"><?= $nome_usuario ?></span>
                 <a class="btn btn-outline-danger" href="../modal/logout.php">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
-            <?php endif; ?>
+            </div>
         </div>
     </nav>
-
-
-
-
 
     <div class=" container py-5 ">
         <div class="row">

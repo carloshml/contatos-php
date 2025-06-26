@@ -23,7 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize with existing image if editing
     const urlParams = new URLSearchParams(window.location.search);
     const noticiaId = urlParams.get('noticia_id');
-    loadNoticiaData(noticiaId);
+    if (noticiaId) {
+        loadNoticiaData(noticiaId);
+    }
+
     if (sucesso === 1) {
         escreverMensagemNaTela('Notícia salva com sucesso!');
     }
