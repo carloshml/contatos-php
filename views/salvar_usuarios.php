@@ -1,392 +1,427 @@
 <?php
-  session_start();
-  if (!isset($_SESSION['id_usuario'])){
-    header("Location: ../index.php?erro=2");
-  }
+session_start();
+if (!isset($_SESSION['id_usuario'])) {
+  header("Location: ../index.php?erro=2");
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta charset="utf-8">
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <title>Contatos-PHP</title>
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script language="JavaScript" src="salvar_usuarios.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerenciar Contatos</title>
 
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4cc9f0;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+    }
+
+    body {
+      background-color: #f5f7fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background: white !important;
+      padding: 1rem 0;
+    }
+
+    .page-header {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-add {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+
+    .btn-add:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+    }
+
+    .action-btn {
+      width: 35px;
+      height: 35px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 3px;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .modal-content {
+      border-radius: 12px;
+      border: none;
+    }
+
+    .modal-header {
+      background: var(--primary-color);
+      color: white;
+      border-radius: 12px 12px 0 0 !important;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    /* Modern table styling */
+    #contactsTable {
+      width: 100% !important;
+    }
+
+    #contactsTable thead th {
+      border-bottom: 2px solid var(--primary-color);
+      font-weight: 600;
+    }
+
+    #contactsTable tbody tr:hover {
+      background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .badge-gender {
+      padding: 0.35em 0.65em;
+      font-size: 0.75em;
+      font-weight: 500;
+    }
+
+    .badge-male {
+      background-color: #d1e7ff;
+      color: #0a58ca;
+    }
+
+    .badge-female {
+      background-color: #ffd1e7;
+      color: #ca0a7a;
+    }
+  </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="home.php">
-      Agenda
-    </a>
-    <a class="nav-link" href="../modal/logout.php">sair</a>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="home.php">
+        <i class="fas fa-address-book me-2"></i> Notícias Atuais - Usuários
+      </a>
+      <div class="d-flex align-items-center">
+        <a class="btn btn-outline-danger" href="../modal/logout.php">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      </div>
+    </div>
   </nav>
-  <div class="container">
-    <div class="form-row">
-      <div class="col">
-        <h2>Contatos</h2>
-      </div>
-      <div class="col text-right">
-        <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-success " data-toggle="modal"
-          data-target="#meuModal">
-          novo
-        </button>
+
+  <!-- Main Content -->
+  <div class="container py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h2 class="mb-0"><i class="fas fa-users me-2"></i>Gerenciar Usuários</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-add text-white" data-bs-toggle="modal"
+            data-bs-target="#createModal">
+            <i class="fas fa-plus me-2"></i>Novo Contato
+          </button>
+        </div>
       </div>
     </div>
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Login</th>
-          <th scope="col">Endereço</th>
-          <th scope="col">Telefone</th>
-          <th scope="col">Email</th>
-          <th scope="col">Sexo</th>
-          <th scope="col">Ação</th>
-        </tr>
-      </thead>
-      <tbody id="todo_contatos">
-        <!--  os contatos aqui são gerado dinamicamento com a funcao  atualizarContatos(); -->
-      </tbody>
-    </table>
+    <!-- Contacts Table -->
+    <div class="table-container">
+      <table id="contactsTable" class="table table-hover" style="width:100%">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Login</th>
+            <th>Endereço</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Sexo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="todo_contatos">
+          <!-- Contacts will be loaded dynamically -->
+        </tbody>
+      </table>
+    </div>
   </div>
-  </div>
-</body>
 
-</html>
-
-
-<!-- Modal Create -->
-<div class="modal fade" id="meuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Adicionar Contato</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div clas="span10 offset1">
-            <div class="card">
-              <div class="card-body">
-                <form id="form_contato" class="form-horizontal"> <!-- action="index.php" method="post" -->
-                  <div class="control-group">
-                    <label class="control-label">Nome</label>
-                    <div class="controls">
-                      <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text" placeholder="Nome"
-                        required="" value="">
-                      <span id="erro_nome" class="help-inline text-warning"></span>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">Login</label>
-                    <div class="controls">
-                      <input id="in_m_c_login" size="50" class="form-control" name="login" type="text"
-                        placeholder="login" required="" value="">
-                      <span id="erro_login" class="help-inline text-warning"></span>
-                    </div>
-                  </div>
-                  <div class="control-group ">
-                    <label class="control-label">Endereço</label>
-                    <div class="controls">
-                      <input id="in_m_c_endereco" size="80" class="form-control" name="endereco" type="text"
-                        placeholder="Endereço" required="" value="">
-                      <span id="erro_endereco" class="help-inline text-warning"></span>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="col">
-                      <div class="control-group ">
-                        <label class="control-label">Telefone</label>
-                        <div class="controls">
-                          <input id="in_m_c_telefone" size="35" class="form-control" name="telefone" type="text"
-                            placeholder="Telefone" required="" value="">
-                          <span id="erro_telefone" class="help-inline text-warning"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="control-group ">
-                        <label class="control-label">Email</label>
-                        <div class="controls">
-                          <input id="in_m_c_email" size="40" class="form-control" name="email" type="text"
-                            placeholder="Email" required="" value="">
-                          <span id="erro_email1" class="help-inline text-warning"></span>
-                          <span id="erro_email2" class="help-inline text-warning"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="col">
-                      <div class="control-group ">
-                        <label class="control-label">Senha</label>
-                        <div class="controls">
-                          <input id="in_m_c_senha" size="80" class="form-control" name="senha" type="password"
-                            placeholder="senha" required="true" value="">
-
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="control-group ">
-                        <label class="control-label">Repita a Senha</label>
-                        <div class="controls">
-                          <input id="in_m_c_senha2" size="80" class="form-control" name="senha2" type="password"
-                            placeholder="senha" required="true" value="">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <span id="erro_senha" class="help-inline text-warning"></span>
-                  <span id="erro_senha2" class="help-inline text-warning"></span>
-                  <div class="control-group ">
-                    <label class="control-label">Sexo</label>
-                    <span id="erro_sexo" class="help-inline text-warning"></span>
-                    <div class="controls">
-                      <div class="form-check">
-                        <p class="form-check-label">
-                          <input class="form-check-input" type="radio" name="sexo" id="sexoM" value="M" /> Masculino
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sexo" id="sexoF" value="F" /> Feminino
-                      </div>
-                      </p>
-
-                    </div>
-                  </div>
-                </form>
-              </div>
+  <!-- Create Contact Modal -->
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createModalLabel"><i class="fas fa-user-plus me-2"></i>Adicionar Contato</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form_contato" class="row g-3">
+            <div class="col-md-6">
+              <label for="in_m_c_nome" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="in_m_c_nome" name="nome" required>
+              <div id="erro_nome" class="invalid-feedback"></div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button id="btn_salvar_contato" class="btn btn-success">Adicionar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal  Delete-->
-<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Deseja Deletar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div clas="span10 offset1">
+            <div class="col-md-6">
+              <label for="in_m_c_login" class="form-label">Login</label>
+              <input type="text" class="form-control" id="in_m_c_login" name="login" required>
+              <div id="erro_login" class="invalid-feedback"></div>
+            </div>
 
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button id="btn-deletar-contato-concluir" class="btn btn-danger">deletar</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="col-12">
+              <label for="in_m_c_endereco" class="form-label">Endereço</label>
+              <input type="text" class="form-control" id="in_m_c_endereco" name="endereco" required>
+              <div id="erro_endereco" class="invalid-feedback"></div>
+            </div>
 
-<!-- Modal  informacao-->
-<div class="modal fade" id="modal_read" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Informações do Contato</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="span10 offset1">
-            <div class="card">
+            <div class="col-md-6">
+              <label for="in_m_c_telefone" class="form-label">Telefone</label>
+              <input type="text" class="form-control" id="in_m_c_telefone" name="telefone" required>
+              <div id="erro_telefone" class="invalid-feedback"></div>
+            </div>
 
-              <div class="container">
-                <div class="form-horizontal">
-                  <div class="control-group">
-                    <label class="control-label">Nome</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_nome_contato"> </label>
-                    </div>
-                  </div>
+            <div class="col-md-6">
+              <label for="in_m_c_email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="in_m_c_email" name="email" required>
+              <div id="erro_email1" class="invalid-feedback"></div>
+              <div id="erro_email2" class="invalid-feedback"></div>
+            </div>
 
-                  <div class="control-group">
-                    <label class="control-label">login</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_login_contato"> </label>
-                    </div>
-                  </div>
+            <div class="col-md-6">
+              <label for="in_m_c_senha" class="form-label">Senha</label>
+              <input type="password" class="form-control" id="in_m_c_senha" name="senha" required>
+            </div>
 
-                  <div class="control-group">
-                    <label class="control-label">Endereço</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_endereco_contato"> </label>
-                    </div>
-                  </div>
+            <div class="col-md-6">
+              <label for="in_m_c_senha2" class="form-label">Repita a Senha</label>
+              <input type="password" class="form-control" id="in_m_c_senha2" name="senha2" required>
+              <div id="erro_senha" class="invalid-feedback"></div>
+              <div id="erro_senha2" class="invalid-feedback"></div>
+            </div>
 
-                  <div class="control-group">
-                    <label class="control-label">Telefone</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_telefone_contato"> </label>
-                    </div>
-                  </div>
-
-                  <div class="control-group">
-                    <label class="control-label">Email</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_email_contato"> </label>
-                    </div>
-                  </div>
-
-                  <div class="control-group">
-                    <label class="control-label">Sexo</label>
-                    <div class="controls">
-                      <label class="carousel-inner" id="rd_sexo_contato"> </label>
-                    </div>
-                  </div>
+            <div class="col-12">
+              <label class="form-label">Sexo</label>
+              <div class="d-flex gap-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="sexoM" value="M" required>
+                  <label class="form-check-label" for="sexoM">Masculino</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="sexoF" value="F">
+                  <label class="form-check-label" for="sexoF">Feminino</label>
                 </div>
               </div>
+              <div id="erro_sexo" class="invalid-feedback"></div>
             </div>
-          </div>
+          </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn_salvar_contato" class="btn btn-primary">Salvar Contato</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-
-<!-- Modal  Update-->
-<div class="modal fade" id="modal_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Atualizar Contato</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div clas="span10 offset1">
-            <div class="card">
-              <div class="card-body">
-                <form id="form_contato_update" class="form-horizontal"> <!-- action="index.php" method="post" -->
-
-
-                  <div class="form-row">
-                    <div class="col col-md-2">
-                      <div class="control-group">
-                        <label class="control-label">Cód</label>
-                        <div class="controls">
-                          <input disabled id="input_id_contato" size="50" class="form-control" name="id" type="text"
-                            placeholder="Cód" required="">
-
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="control-group">
-                        <label class="control-label">Nome</label>
-                        <div class="controls">
-                          <input size="50" id="input_nome_contato" class="form-control" name="nome" type="text"
-                            placeholder="Nome" required="">
-                          <span id="erro_nomeup" class="help-inline text-warning"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="control-group ">
-                      <label class="control-label">login</label>
-                      <div class="controls">
-                        <input size="80" id="input_login_contato" class="form-control" name="login" type="text"
-                          placeholder="login" required="">
-                        <span id="erro_loginup" class="help-inline text-warning"></span>
-                      </div>
-                    </div>
-                    <div class="control-group ">
-                      <label class="control-label">Endereço</label>
-                      <div class="controls">
-                        <input size="80" id="input_endereco_contato" class="form-control" name="endereco" type="text"
-                          placeholder="Endereço" required="">
-                        <span id="erro_enderecoup" class="help-inline text-warning"></span>
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="col">
-                        <div class="control-group ">
-                          <label class="control-label">Telefone</label>
-                          <div class="controls">
-                            <input size="35" id="input_telefone_contato" class="form-control" name="telefone"
-                              type="text" placeholder="Telefone" required="">
-                            <span id="erro_telefoneup" class="help-inline text-warning"></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="control-group ">
-                          <label class="control-label">Email</label>
-                          <div class="controls">
-                            <input size="40" id="input_email_contato" class="form-control" name="email" type="text"
-                              placeholder="Email" required="">
-                            <span id="erro_email1up" class="help-inline text-warning"></span>
-                            <span id="erro_email2up" class="help-inline text-warning"></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="control-group ">
-                      <label class="control-label">Sexo</label>
-                      <div class="controls">
-                        <span id="erro_sexoup" class="help-inline text-warning"></span>
-                        <div class="form-check">
-                          <p class="form-check-label">
-                            <input class="form-check-input" type="radio" name="sexo" value="M" id="sexo_M" /> Masculino
-                          </p>
-                        </div>
-                        <div class="form-check">
-                          <p class="form-check-label">
-                            <input class="form-check-input" type="radio" name="sexo" value="F" id="sexo_F" /> Feminino
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                </form>
-              </div>
+  <!-- View Contact Modal -->
+  <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalLabel"><i class="fas fa-user-circle me-2"></i>Detalhes do Contato</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Nome:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_nome_contato"></div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Login:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_login_contato"></div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Endereço:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_endereco_contato"></div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Telefone:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_telefone_contato"></div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Email:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_email_contato"></div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-3 col-form-label fw-bold">Sexo:</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext" id="rd_sexo_contato"></div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button id="btn_concluir_update_contato" type="button" class="btn btn-success">Atualizar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar
+            Exclusão</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja excluir este contato? Esta ação não pode ser desfeita.</p>
+          <p class="fw-bold" id="deleteContactName"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn-deletar-contato-concluir" class="btn btn-danger">Confirmar Exclusão</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Contact Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel"><i class="fas fa-user-edit me-2"></i>Editar Contato</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form_contato_update" class="row g-3">
+            <input type="hidden" id="input_id_contato" name="id">
+
+            <div class="col-md-6">
+              <label for="input_nome_contato" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="input_nome_contato" name="nome" required>
+              <div id="erro_nomeup" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="input_login_contato" class="form-label">Login</label>
+              <input type="text" class="form-control" id="input_login_contato" name="login" required>
+              <div id="erro_loginup" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-12">
+              <label for="input_endereco_contato" class="form-label">Endereço</label>
+              <input type="text" class="form-control" id="input_endereco_contato" name="endereco" required>
+              <div id="erro_enderecoup" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="input_telefone_contato" class="form-label">Telefone</label>
+              <input type="text" class="form-control" id="input_telefone_contato" name="telefone" required>
+              <div id="erro_telefoneup" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="input_email_contato" class="form-label">Email</label>
+              <input type="email" class="form-control" id="input_email_contato" name="email" required>
+              <div id="erro_email1up" class="invalid-feedback"></div>
+              <div id="erro_email2up" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Sexo</label>
+              <div class="d-flex gap-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="sexo_M" value="M" required>
+                  <label class="form-check-label" for="sexo_M">Masculino</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="sexo_F" value="F">
+                  <label class="form-check-label" for="sexo_F">Feminino</label>
+                </div>
+              </div>
+              <div id="erro_sexoup" class="invalid-feedback"></div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn_concluir_update_contato" class="btn btn-primary">Salvar Alterações</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- Your Custom JS -->
+  <script language="JavaScript" src="salvar_usuarios.js"></script>
+
+  <script>
+    // Initialize DataTable
+    $(document).ready(function () {
+      $('#contactsTable').DataTable({
+        responsive: true,
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
