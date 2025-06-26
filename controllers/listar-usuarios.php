@@ -1,15 +1,12 @@
 <?php
-require_once __DIR__ . '/../config/banco.php';
+require_once __DIR__ . '/../DAO/usuarios.php';
 header('Content-Type: application/json');
 
 try {
-    $pdo = Banco::conectar();
-    $sql = 'SELECT * FROM pessoa ORDER BY id DESC';
-    $stmt = $pdo->query($sql);
-    $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    $usuarioService = new UsuarioService();
     $output = [];
-    foreach ($contacts as $row) {
+    $users = $usuarioService->findAll();
+    foreach ($users as $row) {
         $genderBadge = $row['sexo'] == 'M'
             ? '<span class="badge badge-gender badge-male"><i class="fas fa-mars me-1"></i>Masculino</span>'
             : '<span class="badge badge-gender badge-female"><i class="fas fa-venus me-1"></i>Feminino</span>';
