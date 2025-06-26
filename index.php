@@ -1,111 +1,147 @@
-<!DOCTYPE HTML>
+<?php
+session_start();
+require_once __DIR__ . '/../config/banco.php';
+require_once('DAO/noticia.php');
+$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
+$noticiaService = new NoticiaService();
+$noticias = $noticiaService->get5Noticia();
+?>
+
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-	<meta charset="utf-8">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<title> Login </title>
-	<script src="https://code.jquery.com/jquery-3.3.1.js"
-		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="assets/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="assets/css/style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Últimas Notícias</title>
+	<!-- Bootstrap 5 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		:root {
+			--primary-color: #4361ee;
+			--secondary-color: #3f37c9;
+			--accent-color: #4cc9f0;
+		}
+
+		body {
+			background-color: #f8f9fa;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		.news-card {
+			background: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			margin-bottom: 2rem;
+			overflow: hidden;
+			transition: transform 0.3s ease;
+		}
+
+		.news-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.news-image {
+			width: 100%;
+			height: 300px;
+			object-fit: cover;
+		}
+
+		.news-title {
+			color: var(--primary-color);
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+
+		.news-content {
+			line-height: 1.8;
+			color: #495057;
+		}
+
+		.tag-badge {
+			background-color: var(--accent-color);
+			color: white;
+			margin-right: 0.5rem;
+			margin-bottom: 0.5rem;
+			padding: 0.5rem 1rem;
+			border-radius: 50px;
+			font-weight: 500;
+		}
+
+		.author-info {
+			color: #6c757d;
+			font-size: 0.9rem;
+		}
+
+		.edit-btn {
+			position: absolute;
+			top: 1rem;
+			right: 1rem;
+			z-index: 10;
+		}
+	</style>
 </head>
 
-<body style="height:100vh;">
-	<nav class="navbar navbar-light bg-light">
-		<a class="navbar-brand" href="views/home.php">
-			Noticias Atuais
-		</a>
-	</nav>
-	<section class="container">
-		<h1 class="text-center">Notícias </h1>
-		<?php
-		session_start();
-		//	echo exec('whoami'); 
-		$_SESSION["uploads_base_url"] = dirname(__FILE__);
-		$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
-		include 'config/banco.php';
-		try {
-			$db = new Banco();
-			$pdo = $db->conectar();
-			$sql = "SELECT noticia.id as noticia_id , data_criacao,titulo, texto, tag1,tag2,tag3, foto,"
-				. "pessoa.nome as nome_autor  "
-				. "FROM noticia inner join pessoa  on   noticia.id_autor =  pessoa.id  ORDER BY noticia.id DESC limit 5;";
-			$stmt = $pdo->prepare($sql);
-			$stmt->execute();
-			$stmt->bindColumn('data_criacao', $data_criacao);
-			$stmt->bindColumn('tag1', $tag1);
-			$stmt->bindColumn('tag2', $tag2);
-			$stmt->bindColumn('tag3', $tag3);
-			$stmt->bindColumn('titulo', $titulo);
-			$stmt->bindColumn('texto', $texto);
-			$stmt->bindColumn('noticia_id', $noticia_id);
-			$stmt->bindColumn('foto', $foto, PDO::PARAM_LOB);
-			$stmt->bindColumn('nome_autor', $nome_autor);
-			while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
-
-				$array = array(
-					"noticia_id" => $noticia_id,
-					"titulo" => $titulo,
-					"texto" => $texto,
-					"tag1" => $tag1,
-					"tag2" => $tag2,
-					"tag3" => $tag3					 
-				);
-				if (isset($_SESSION['id_usuario'])) {
-					echo "<form method='post' enctype='multipart/form-data' action='views/escrever_noticia.php?noticia_id=".$noticia_id."&erro=Edite Sua Noticia&teste=";
-					echo json_encode($array) . "' id='formLogin'>";
-					echo "<button   class='btn btn-success' type='submit'>editar</button>";
-					echo "</form >";
-				}
-				if ($foto) {
-					if (is_resource($foto)) {
-						$foto = stream_get_contents($foto);
-					}
-					$base64 = base64_encode($foto);
-					echo "<img class='center' height='150' src='data:image/jpeg;base64,$base64' />";
-				}
-				echo "<h1>";
-				print $titulo;
-				echo "</h1>";
-				print $texto;
-				echo "<br>";
-				echo '<h6> <span class="badge badge-secondary">' . $tag1 . '</span></h6>';
-				echo '<h6> <span class="badge badge-secondary">' . $tag2 . '</span></h6>';
-				echo '<h6> <span class="badge badge-secondary">' . $tag3 . '</span></h6>';
-				echo "<br>";
-				echo '<div class="text-right" > publicado por <strong>  ' . $nome_autor . ' </strong> | ' . date('d/m/Y', strtotime($data_criacao)) . '</div>';
-				echo "<hr>";
+<body>
+	<div class="container py-5">
+		<?php foreach ($noticias as $row):
+			$foto_content = $row['foto'];
+			if (is_resource($foto_content)) {
+				$foto_content = stream_get_contents($foto_content);
 			}
-		} catch (PDOException $e) {
-			print $e->getMessage();
-		}
-		Banco::desconectar();
-		?>
-	</section>
+			$base64 = $foto_content ? base64_encode($foto_content) : '';
 
-	<?php
-	if (!isset($_SESSION['id_usuario'])) {
-		echo '<footer class="bg-light py-3 fixed-bottom border-top text-right">
-				<a href="#"  id="btn_abrir_login"  class="pad-4" data-toggle="modal" data-target="#modal_login">
-					login
-				</a> 
-				<a  class="pad-4" href="views/usuario-inscrevase.php">Inscrever-se</a>
-			</footer>';
-	} else {
-		echo '<ffooter class="bg-light py-3 fixed-bottom border-top text-right">
-				<a  class="pad-4"  href="views/home.php"  class="" >
-				bem vindo ' . $_SESSION['nome_usuario'] .
-			   '</a> 
-			</footer>';
-	}
-	?>
+			$array = [
+				"noticia_id" => $row['noticia_id'],
+				"titulo" => $row['titulo'],
+				"texto" => $row['texto'],
+				"tag1" => $row['tag1'],
+				"tag2" => $row['tag2'],
+				"tag3" => $row['tag3']
+			];
+			?>
+			<div class="news-card">
+				<?php if (isset($_SESSION['id_usuario'])): ?>
+					<form method="post" enctype="multipart/form-data"
+						action="views/escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&teste=<?= urlencode(json_encode($array)) ?>"
+						class="edit-btn">
+						<button class="btn btn-sm btn-primary rounded-circle" type="submit" title="Editar Notícia">
+							<i class="fas fa-edit"></i>
+						</button>
+					</form>
+				<?php endif; ?>
 
+				<?php if ($base64): ?>
+					<img class="news-image" src="data:image/jpeg;base64,<?= $base64 ?>"
+						alt="<?= htmlspecialchars($row['titulo']) ?>">
+				<?php endif; ?>
+
+				<div class="p-4">
+					<h2 class="news-title"><?= htmlspecialchars($row['titulo']) ?></h2>
+					<div class="news-content"><?= nl2br(htmlspecialchars($row['texto'])) ?></div>
+
+					<div class="mt-3 mb-4">
+						<?php foreach (['tag1', 'tag2', 'tag3'] as $tag):
+							if (!empty($row[$tag])): ?>
+								<span class="tag-badge"><?= htmlspecialchars($row[$tag]) ?></span>
+							<?php endif;
+						endforeach; ?>
+					</div>
+
+					<div class="author-info text-end">
+						Publicado por <strong><?= htmlspecialchars($row['nome_autor']) ?></strong> |
+						<?= date('d/m/Y', strtotime($row['data_criacao'])) ?>
+					</div>
+				</div>
+			</div>
+		<?php endforeach; ?>
+	</div>
+
+	<!-- Bootstrap 5 JS Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
