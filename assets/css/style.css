@@ -27,11 +27,7 @@
   /* Hidden by default */
 }
 
-:root {
-  --primary-color: #4361ee;
-  --secondary-color: #3f37c9;
-  --accent-color: #4cc9f0;
-}
+
 
 body {
   background-color: #f8f9fa;

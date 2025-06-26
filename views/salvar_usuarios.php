@@ -129,7 +129,7 @@ if (!isset($_SESSION['id_usuario'])) {
     }
   </style>
 
-  <!-- Your Custom JS -->
+
   <script language="JavaScript" src="salvar_usuarios.js"></script>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>

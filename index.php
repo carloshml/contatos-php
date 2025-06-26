@@ -211,14 +211,18 @@ $noticias = $noticiaService->get5Noticia();
 	</div>
 
 
+
+
 	<?php
 	if (!isset($_SESSION['id_usuario'])) {
-		echo '<footer class="bg-light py-3 fixed-bottom border-top text-right">
-				<a href="#" id="btn_abrir_login" class="pad-4" data-bs-toggle="modal" data-bs-target="#modal_login">
-				login
-				</a>
-				<a  class="pad-4" href="views/usuario-inscrevase.php">Inscrever-se</a>
-			</footer>';
+		echo '<footer class="bg-light py-3 fixed-bottom border-top d-flex justify-content-end pe-4">
+			<a class="btn btn-outline-primary me-2" href="#" id="btn_abrir_login" data-bs-toggle="modal" data-bs-target="#modal_login">
+				<i class="fas fa-sign-in-alt"></i> Login
+			</a>
+			<a class="btn btn-outline-success" href="views/usuario-inscrevase.php">
+				<i class="fas fa-user-plus"></i> Inscrever-se
+			</a>
+		</footer>';
 	}
 	?>
 	<!-- Bootstrap 5 JS Bundle with Popper -->
