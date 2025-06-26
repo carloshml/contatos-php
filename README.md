@@ -1,6 +1,6 @@
-# Projeto CRUD em PHP - Bootstrap,jQuery, PDO & MySQL
+# Projeto Portal de Notícias
 
-Desenvolvimento de um simples projeto CRUD (agenda de contatos) utilizando o acesso a banco de dados com o MySQL e linguagem PHP.
+Desenvolvimento de projeto de portal de noticia com gerenciamento de usuários
 
 ## Assuntos Abordados no Desenvolvimento do Projeto:
 
@@ -11,7 +11,7 @@ Desenvolvimento de um simples projeto CRUD (agenda de contatos) utilizando o ace
 
 ## Configuração do Projeto:
 
-- Executar a query pessoa.sql ou importar o arquivo no phpMyAdmin para criar a table necessária.
+- Executar a query tables.sql ou importar o arquivo no phpMyAdmin para criar a table necessária.
 - Editar o arquivo **banco.php** 
 
 ```
