@@ -19,14 +19,18 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
   <meta charset="utf-8">
   <title>Escrever Notícia</title>
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
-
+  <script language="JavaScript" src="funcoes-sistema.js"></script>
   <script type="text/javascript">
     const post = <?= $teste ?>;
     const erro = <?= json_encode($erro) ?>;
-
+    const sucesso = <?= $sucesso ?>;
     document.addEventListener("DOMContentLoaded", function () {
+      if (sucesso === 1) {
+        escreverMensagemNaTela('Notícia salva com sucesso!');
+      }
       if (erro && erro !== '0') {
         if (post.titulo) document.getElementById('titulo').value = post.titulo;
         if (post.texto) document.getElementById('texto').value = post.texto;
@@ -37,30 +41,25 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       }
     });
   </script>
+
 </head>
 
 <body>
+  <div id="mensagem-upload" class="text-center"></div>
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="home.php">Notícias Atuais</a>
     <a class="nav-link" href="../modal/logout.php">Sair</a>
   </nav>
+  <h1>Notícia</h1>
 
   <section class="container mt-4">
-    <?php if ($sucesso): ?>
-      <div class="alert alert-success">Notícia salva com sucesso!</div>
-    <?php endif; ?>
-
     <?php if ($erro && $erro !== '0'): ?>
       <div class="alert alert-warning"><?= htmlspecialchars($erro) ?></div>
     <?php endif; ?>
-
-    <h1>Notícia</h1>
-
     <?php
     if (!empty($_REQUEST['noticia_id'])) {
       $noticiaService = new NoticiaService();
       $noticias = $noticiaService->findById($_REQUEST['noticia_id']);
-
       if ($noticias) {
         foreach ($noticias as $noticia) {
           $foto = $noticia['foto'];
@@ -102,8 +101,6 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       </div>
     </form>';
     }
-
-
     if (empty($_REQUEST['noticia_id'])) {
       echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_salvar.php" id="formNoticia">
       <input type="hidden" name="noticia_id" id="noticia_id">
@@ -136,10 +133,7 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
       </div>
     </form>';
     }
-
     ?>
-
-
   </section>
 </body>
 

@@ -91,17 +91,17 @@
 
 	<?php
 	if (!isset($_SESSION['id_usuario'])) {
-		echo '<footer class="text-right"  style="position: fixed; width:100%; bottom:0 "  >
-				<a id="btn_abrir_login"  class="" data-toggle="modal" data-target="#modal_login">
+		echo '<footer class="bg-light py-3 fixed-bottom border-top text-right">
+				<a href="#"  id="btn_abrir_login"  class="pad-4" data-toggle="modal" data-target="#modal_login">
 					login
 				</a> 
-				<a href="views/usuario-inscrevase.php">Inscrever-se</a>
+				<a  class="pad-4" href="views/usuario-inscrevase.php">Inscrever-se</a>
 			</footer>';
 	} else {
-		echo '<footer class="text-right"  style="position: fixed; width:100%; bottom:0 "  >
-				<a  href="views/home.php"  class="" >
+		echo '<ffooter class="bg-light py-3 fixed-bottom border-top text-right">
+				<a  class="pad-4"  href="views/home.php"  class="" >
 				bem vindo ' . $_SESSION['nome_usuario'] .
-			'</a> 
+			   '</a> 
 			</footer>';
 	}
 	?>
