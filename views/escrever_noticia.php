@@ -73,7 +73,7 @@ $teste = $_GET['teste'] ?? '{}'; // Now it's a JSON string
         <div class="col"><input type="text" name="tag3" id="tag3" class="form-control" maxlength="10"
             placeholder="Tag 3"></div>
         <div class="col text-right">
-          <button type="submit" class="btn btn-success">Salvar</button>
+          <button type="submit" class="btn btn-success">Editar</button>
         </div>
       </div>
     </form>';

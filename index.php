@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/banco.php';
 require_once('DAO/noticia.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 $noticiaService = new NoticiaService();
@@ -76,16 +75,44 @@ $noticias = $noticiaService->get5Noticia();
 			font-size: 0.9rem;
 		}
 
-		.edit-btn {
+		form {
+			position: relative !important;
+		}
+
+		.form-edit-btn {
 			position: absolute;
 			top: 1rem;
+			left: 1rem;
+			z-index: 10;
+		}
+
+		.edit-btn {
+			position: absolute;
+		}
+
+		.form-btn-sair {
+			top: 4rem;
 			right: 1rem;
 			z-index: 10;
+		}
+
+		.btn-sair {
+			position: absolute;
+			right: 1rem;
+			background-color: red;
 		}
 	</style>
 </head>
 
 <body>
+	<?php if (isset($_SESSION['id_usuario'])): ?>
+		<form method="post" enctype="multipart/form-data" action="../modal/logout.php" class="form-btn-sair">
+			<button class="btn btn-sm btn-primary rounded-circle btn-sair " type="submit" title="Sair">
+				<i class="fas fa-sign-out-alt"></i>
+			</button>
+		</form>
+	<?php endif; ?>
+
 	<div class="container py-5">
 		<?php foreach ($noticias as $row):
 			$foto_content = $row['foto'];
@@ -93,7 +120,6 @@ $noticias = $noticiaService->get5Noticia();
 				$foto_content = stream_get_contents($foto_content);
 			}
 			$base64 = $foto_content ? base64_encode($foto_content) : '';
-
 			$array = [
 				"noticia_id" => $row['noticia_id'],
 				"titulo" => $row['titulo'],
@@ -107,8 +133,8 @@ $noticias = $noticiaService->get5Noticia();
 				<?php if (isset($_SESSION['id_usuario'])): ?>
 					<form method="post" enctype="multipart/form-data"
 						action="views/escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&teste=<?= urlencode(json_encode($array)) ?>"
-						class="edit-btn">
-						<button class="btn btn-sm btn-primary rounded-circle" type="submit" title="Editar Notícia">
+						class="form-edit-btn">
+						<button class="btn btn-sm btn-primary rounded-circle edit-btn" type="submit" title="Editar Notícia">
 							<i class="fas fa-edit"></i>
 						</button>
 					</form>
@@ -140,20 +166,40 @@ $noticias = $noticiaService->get5Noticia();
 		<?php endforeach; ?>
 	</div>
 
+	<?php
+	if (!isset($_SESSION['id_usuario'])) {
+		echo '<footer class="bg-light py-3 fixed-bottom border-top text-right">
+				<a href="#" id="btn_abrir_login" class="pad-4" data-bs-toggle="modal" data-bs-target="#modal_login">
+				login
+				</a>
+				<a  class="pad-4" href="views/usuario-inscrevase.php">Inscrever-se</a>
+			</footer>';
+	} else {
+		echo '<ffooter class="bg-light py-3 fixed-bottom border-top text-right">
+				<a  class="pad-4"  href="views/home.php"  class="" >
+				bem vindo ' . $_SESSION['nome_usuario'] .
+			'</a> 
+			</footer>';
+	}
+	?>
 	<!-- Bootstrap 5 JS Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
 
-<!-- Modal  Update-->
+
+
+
+
+<!-- Modal  login-->
 <div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel"> Entrar </h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
