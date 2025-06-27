@@ -22,6 +22,7 @@ try {
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-sm btn-outline-primary action-btn btn_ler_contato" 
                             id="btnrd_' . $row['id'] . '" 
+                            data-id="' . $row['id'] . '"
                             data-bs-toggle="modal" 
                             data-bs-target="#viewModal"
                             title="Ver detalhes">
@@ -29,6 +30,7 @@ try {
                     </button>
                     <button class="btn btn-sm btn-outline-warning action-btn btn_update_contato" 
                             id="btnupdt_' . $row['id'] . '" 
+                            data-id="' . $row['id'] . '"
                             data-bs-toggle="modal" 
                             data-bs-target="#editModal"
                             title="Editar">

@@ -42,7 +42,7 @@ class NoticiaService
 
     }
 
-    public function findByIdUsuario($id_usuario)
+    public function countByIdUsuario($id_usuario)
     {
         $total = 0;
         $sql = " SELECT COUNT(id)  as total FROM noticia "
