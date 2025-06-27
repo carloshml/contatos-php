@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../DAO/usuarios.php';
 header('Content-Type: application/json');
-
 try {
     $usuarioService = new UsuarioService();
     $output = [];

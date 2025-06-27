@@ -12,6 +12,11 @@ class UsuarioService
         $this->link = $db->conectar();
     }
 
+    public function __destruct()
+    {
+        Banco::desconectar();
+    }
+
     public function findAll()
     {
         $sql = 'SELECT * FROM pessoa ORDER BY id DESC';

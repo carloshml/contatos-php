@@ -12,6 +12,12 @@ class NoticiaService
         $this->link = $db->conectar();
     }
 
+    public function __destruct()
+    {
+        Banco::desconectar();
+    }
+
+
     public function findById($id_noticia)
     {
 
@@ -57,8 +63,7 @@ class NoticiaService
         $stmt = $this->link->prepare($sql);
         $stmt->bindColumn('total', $total);
         $stmt->execute();
-        $stmt->fetch(PDO::FETCH_BOUND);
-        Banco::desconectar();
+        $stmt->fetch(PDO::FETCH_BOUND);        
         return $total;
     }
 

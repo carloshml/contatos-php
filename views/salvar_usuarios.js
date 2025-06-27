@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#contactsTable tbody').on('click', '.btn_ler_contato', function () {
       const id_user = this.id.split('_')[1];
       $.ajax({
-        url: '../modal/usuario-by-id.php',
+        url: '../controllers/usuario-by-id.php',
         method: 'GET',
         data: { id: id_user },
         dataType: 'json',
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#contactsTable tbody').on('click', '.btn_update_contato', function () {
       const id_user = this.id.split('_')[1];
       $.ajax({
-        url: '../modal/usuario-by-id.php',
+        url: '../controllers/usuario-by-id.php',
         method: 'GET',
         data: { id: id_user },
         dataType: 'json',

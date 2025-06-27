@@ -1,9 +1,6 @@
 <?php
 session_start();
-
-
 require_once('../DAO/noticia.php');
-
 $id_usuario = $_SESSION['id_usuario'] ?? 0;
 $erro = $_GET['erro'] ?? 0;
 $sucesso = $_GET['sucesso'] ?? 0;

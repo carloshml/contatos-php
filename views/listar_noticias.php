@@ -1,10 +1,9 @@
 <?php
 session_start();
-require_once('../DAO/noticia.php');
+require_once('../controllers/noticia-list-all.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
-$noticiaService = new NoticiaService();
-$noticias = $noticiaService->getAllNoticia();
 $nome_usuario = $_SESSION['nome_usuario'];
+$noticias = fetchNoticias();
 ?>
 
 <!DOCTYPE html>
