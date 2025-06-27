@@ -352,7 +352,6 @@ if (!isset($_SESSION['id_usuario'])) {
         <div class="modal-body">
           <form id="form_contato_update" class="row g-3">
             <input type="hidden" id="input_id_contato" name="id">
-
             <div class="col-md-6">
               <label for="input_nome_contato" class="form-label">Nome</label>
               <input type="text" class="form-control" id="input_nome_contato" name="nome" required>

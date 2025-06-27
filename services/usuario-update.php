@@ -56,36 +56,41 @@ if (!empty($_POST)) {
 
     // update data
     if ($valido) {
-        $pdo = Banco::conectar();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "UPDATE pessoa  set nome = ?, endereco = ?, telefone = ?, email = ?, sexo = ?, login = ? WHERE id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($nome, $endereco, $telefone, $email, $sexo, $login, $id));
-        Banco::desconectar();
-        // header("Location: index.php");
-        $valido = $valido ? 'true' : 'false';
-        echo '[{"valido":' . $valido . '},{"msg":"' . $nome . $endereco . $telefone . $email . $sexo . $id . '"}]';
-
+        try {
+            $pdo = Banco::conectar();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE pessoa 
+                   SET nome = ?, endereco = ?, telefone = ?, email = ?, sexo = ?, login = ? 
+                 WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute([$nome, $endereco, $telefone, $email, $sexo, $login, $id]);
+            echo json_encode([
+                'valido' => true,
+                'mensagem' => 'Atualizado com sucesso',
+                'id' => $id
+            ], JSON_UNESCAPED_UNICODE);
+        } catch (PDOException $e) {
+            echo json_encode([
+                'valido' => false,
+                'erro' => true,
+                'mensagem' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE);
+        } finally {
+            Banco::desconectar();
+        }
     } else {
-        $valido = $valido ? 'true' : 'false';
-        $temErroNome = $nomeError ? 'true' : 'false';
-        $temErroEndereco = $enderecoErro ? 'true' : 'false';
-        $temErroTelefone = $telefoneErro ? 'true' : 'false';
-        $temErroEmailTamanho = $emailErro ? 'true' : 'false';
-        $temErroEmailValidade = $emailError ? 'true' : 'false';
-        $temErroSexo = $sexoErro ? 'true' : 'false';
-        $temErroLogin = $loginError ? 'true' : 'false';
-        echo '['
-            . '{"valido":' . $valido . '},'
-            . '{"temErro":' . $temErroNome . ', "motivo":"' . $nomeError, '"},'
-            . '{"temErro":' . $temErroEndereco . ',"motivo":"' . $enderecoErro, '"},'
-            . '{"temErro":' . $temErroTelefone . ',"motivo":"' . $telefoneErro, '"},'
-            . '{"temErro":' . $temErroEmailTamanho . ',"motivo":"' . $emailErro, '"},'
-            . '{"temErro":' . $temErroEmailValidade . ',"motivo":"' . $emailError, '"},'
-            . '{"temErro":' . $temErroSexo . ',"motivo":"' . $sexoErro, '"},'
-            . '{"temErro":' . $temErroLogin . ',"motivo":"' . $loginError, '"}'
-            . ']';
+        echo json_encode([
+            ['valido' => false],
+            ['erroNome' => !empty($nomeError), 'motivo' => $nomeError ?? ''],
+            ['erroEndereco' => !empty($enderecoErro), 'motivo' => $enderecoErro ?? ''],
+            ['erroTelefone' => !empty($telefoneErro), 'motivo' => $telefoneErro ?? ''],
+            ['erroEmailTamanho' => !empty($emailErro), 'motivo' => $emailErro ?? ''],
+            ['erroEmailValido' => !empty($emailError), 'motivo' => $emailError ?? ''],
+            ['erroSexo' => !empty($sexoErro), 'motivo' => $sexoErro ?? ''],
+            ['erroLogin' => !empty($loginError), 'motivo' => $loginError ?? '']
+        ], JSON_UNESCAPED_UNICODE);
     }
+
 }
 
 ?>

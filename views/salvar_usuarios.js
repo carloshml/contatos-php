@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $('#btn-deletar-contato-concluir').click(function (e) {
-      console.log(' deletar if ::: ', $('#btn-deletar-contato-concluir').attr('data-id'));
       $.ajax({
         url: '../services/usuario-delete.php',
         method: 'get',
@@ -104,15 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $('#btn_concluir_update_contato').click(function () {
-      const idContato = this.getAttribute('idUpdate');
+      const dataRequest = 'id=' + $('#btn_concluir_update_contato').attr('data-id') + '&' + $('#form_contato_update').serialize();
       $.ajax({
         url: '../services/usuario-update.php',
         method: 'post',
-        data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
+        data: dataRequest,
         success: function (data) {
-
           const validacao = JSON.parse(data);
-          if (validacao[0].valido) {
+          if (validacao.valido) {
             $('#createModal ').modal('hide');
             $('#viewModal').modal('hide');
             $('#deleteModal').modal('hide');
@@ -206,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
+
     const table = $('#contactsTable').DataTable({
       responsive: true,
       language: {
@@ -249,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data: { id: id_user },
         dataType: 'json',
         success: function (data) {
+          $('#input_id_contato').attr('value', id_user);
           $('#btn_concluir_update_contato').attr('data-id', id_user);
           $('#input_id_user').val(data.id);
           $('#input_nome_contato').val(data.nome);
@@ -299,8 +299,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
-
-
-
 });
