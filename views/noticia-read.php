@@ -35,16 +35,23 @@ $noticia = $_GET['noticia'] ?? '{}';
       if (noticia) {
         if (noticia.titulo) document.getElementById('news-title').textContent = noticia.titulo;
         if (noticia.texto) document.getElementById('news-content').textContent = noticia.texto;
-        if (noticia.tag1) document.getElementById('tag1').textContent = noticia.tag1;
-        if (noticia.tag2) document.getElementById('tag2').textContent = noticia.tag2;
-        if (noticia.tag3) document.getElementById('tag3').textContent = noticia.tag3;
+        if (noticia.tag1) {
+          document.getElementById('tag1').textContent = noticia.tag1
+        } else {
+          document.getElementById('tag1').style.display = 'none';
+        }
+        if (noticia.tag2) {
+          document.getElementById('tag2').textContent = noticia.tag2
+        } else {
+          document.getElementById('tag2').style.display = 'none';
+        }
+        if (noticia.tag3) {
+          document.getElementById('tag3').textContent = noticia.tag3
+        } else {
+          document.getElementById('tag3').style.display = 'none';
+        }
         if (noticia.nomeAutor) document.getElementById('nomeAutor').textContent = noticia.nomeAutor;
-
         if (noticia.dataCriacao) document.getElementById('dataCriacao').textContent = noticia.dataCriacao;
-
-
-
-
         if (noticia.foto) {
           document.getElementById('news-image').src = 'data:image/jpeg;base64,' + noticia.foto;
           document.getElementById('news-image').style.display = 'block';
