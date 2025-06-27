@@ -51,84 +51,64 @@ $noticia = $_GET['noticia'] ?? '{}';
     </div>
   </nav>
   <div id="mensagem-upload" class="text-center"></div>
-  <section class="container mt-4">
-    <h1> Escreva Sua Notícia</h1>
-    <?php if ($erro && $erro !== '0'): ?>
-      <div class="alert alert-warning"><?= htmlspecialchars($erro) ?></div>
-    <?php endif; ?>
-    <?php
-    if (!empty($_REQUEST['noticia_id'])) {
-      echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_update.php" id="formNoticia">
-      <input type="hidden" name="noticia_id" id="noticia_id">
-
-      <div class="form-group">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" name="titulo" class="form-control" required>
+  <section class="container mt-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-header text-white" style="background-color: var(--primary-color);">
+        <h4 class="mb-0">Escreva Sua Notícia</h4>
       </div>
+      <div class="card-body p-4">
+        <form method="post" enctype="multipart/form-data"
+          action="<?= !empty($_REQUEST['noticia_id']) ? '../modal/noticia_update.php' : '../modal/noticia_salvar.php' ?>"
+          id="formNoticia">
 
-      <div class="form-group">
-        <label for="texto">Texto</label>
-        <textarea name="texto" id="texto" class="form-control" rows="8" required></textarea>
-      </div>
+          <input type="hidden" name="noticia_id" id="noticia_id"
+            value="<?= htmlspecialchars($_REQUEST['noticia_id'] ?? '') ?>">
 
-      <div class="form-group">
-        <label for="imagem_file">Nova Imagem</label>
-        <input type="file" id="imagem_file" name="imagem" class="form-control-file" accept="image/*">
-        <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
-          <img id="imagePreview" src="#" alt="Preview" style="max-height: 200px; max-width: 100%;"/>
-        </div>
-      </div>
+          <div class="mb-3 form-floating">
+            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" required>
+            <label for="titulo">Título</label>
+          </div>
 
-      <div class="form-row">
-        <div class="col"><input type="text" name="tag1" id="tag1" class="form-control" maxlength="10"
-            placeholder="Tag 1"></div>
-        <div class="col"><input type="text" name="tag2" id="tag2" class="form-control" maxlength="10"
-            placeholder="Tag 2"></div>
-        <div class="col"><input type="text" name="tag3" id="tag3" class="form-control" maxlength="10"
-            placeholder="Tag 3"></div>
-        <div class="col text-right">
-          <button type="submit" class="btn btn-success">Editar</button>
-        </div>
-      </div>
-    </form>';
-    }
-    if (empty($_REQUEST['noticia_id'])) {
-      echo '<form method="post" enctype="multipart/form-data" action="../modal/noticia_salvar.php" id="formNoticia">
-      <input type="hidden" name="noticia_id" id="noticia_id">
+          <div class="mb-3">
+            <label for="texto" class="form-label">Texto</label>
+            <textarea name="texto" id="texto" class="form-control" rows="8" required></textarea>
+          </div>
 
-      <div class="form-group">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" name="titulo" class="form-control" required>
-      </div>
+          <div class="mb-4">
+            <label for="imagem_file" class="form-label">Imagem</label>
+            <div class="row align-items-center g-3">
+              <div class="col-md-8">
+                <input type="file" id="imagem_file" name="imagem" class="form-control" accept="image/*">
+              </div>
+              <div class="col-md-4">
+                <div id="imagePreviewContainer" class="border rounded p-2 text-center bg-light" style="display: none;">
+                  <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded" style="max-height: 180px;">
+                  <small class="d-block mt-2 text-muted">Pré-visualização</small>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label for="texto">Texto</label>
-        <textarea name="texto" id="texto" class="form-control" rows="8" required></textarea>
-      </div>
 
-      <div class="form-group">
-        <label for="imagem_file">Imagem Nova</label>
-        <input type="file" id="imagem_file" name="imagem" class="form-control-file" accept="image/*">
-        <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
-          <img id="imagePreview" src="#" alt="Preview" style="max-height: 200px; max-width: 100%;"/>
-        </div>
-      </div>
+          <div class="row g-3 mb-4">
+            <div class="col-md"><input type="text" name="tag1" id="tag1" class="form-control" placeholder="Tag 1"
+                maxlength="10"></div>
+            <div class="col-md"><input type="text" name="tag2" id="tag2" class="form-control" placeholder="Tag 2"
+                maxlength="10"></div>
+            <div class="col-md"><input type="text" name="tag3" id="tag3" class="form-control" placeholder="Tag 3"
+                maxlength="10"></div>
+          </div>
 
-      <div class="form-row">
-        <div class="col"><input type="text" name="tag1" id="tag1" class="form-control" maxlength="10"
-            placeholder="Tag 1"></div>
-        <div class="col"><input type="text" name="tag2" id="tag2" class="form-control" maxlength="10"
-            placeholder="Tag 2"></div>
-        <div class="col"><input type="text" name="tag3" id="tag3" class="form-control" maxlength="10"
-            placeholder="Tag 3"></div>
-        <div class="col text-right">
-          <button type="submit" class="btn btn-success">Salvar</button>
-        </div>
+          <div class="text-end">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-check me-2"></i><?= !empty($_REQUEST['noticia_id']) ? 'Editar' : 'Salvar' ?>
+            </button>
+          </div>
+        </form>
       </div>
-    </form>';
-    }
-    ?>
+    </div>
   </section>
+
 </body>
 
 </html>
