@@ -324,13 +324,14 @@ if (!isset($_SESSION['id_usuario'])) {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar
-            Exclusão</h5>
+          <h5 class="modal-title" id="deleteModalLabel">
+            <i class="fas fa-exclamation-triangle me-2"></i> Confirmar Exclusão!
+          </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p>Tem certeza que deseja excluir este contato? Esta ação não pode ser desfeita.</p>
-          <p class="fw-bold" id="deleteContactName"></p>
+          <p class="fw-bold"> usuario : <span id="deleteContactName"></span></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
