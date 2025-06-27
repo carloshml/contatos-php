@@ -37,6 +37,7 @@ try {
                     </button>
                     <button class="btn btn-sm btn-outline-danger action-btn btn_apaga_contato" 
                             id="btndlt_' . $row['id'] . '" 
+                            data-id="' . $row['id'] . '"
                             data-bs-toggle="modal" 
                             data-bs-target="#deleteModal"
                             title="Excluir">
