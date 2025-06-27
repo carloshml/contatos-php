@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $(document).ready(function () {
     $('#btn_salvar_contato').click(function () {    
       $.ajax({
-        url: '../modal/create.php',
+        url: '../modal/usuario-create.php',
         method: 'post',
         data: $('#form_contato').serialize(),
         success: function (data) {         
