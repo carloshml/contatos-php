@@ -19,6 +19,19 @@ $nome_usuario = $_SESSION['nome_usuario'];
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        form {
+            position: relative !important;
+        }
+
+        .form-edit-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -63,7 +76,7 @@ $nome_usuario = $_SESSION['nome_usuario'];
                     <div class="news-card">
                         <?php if (isset($_SESSION['id_usuario'])): ?>
                             <form method="post" enctype="multipart/form-data"
-                                action="escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&noticia=<?= urlencode(json_encode($array)) ?>"
+                                action="views/escrever_noticia.php?noticia_id=<?= $row['noticia_id'] ?>&erro=Edite Sua Noticia&noticia=<?= urlencode(json_encode($array)) ?>"
                                 class="form-edit-btn">
                                 <button class="btn btn-sm btn-primary rounded-circle edit-btn" type="submit"
                                     title="Editar Notícia">

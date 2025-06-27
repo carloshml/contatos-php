@@ -9,17 +9,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      background-color: #f5f7ff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .navbar {
-      background-color: var(--primary-color);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-
     .card {
       border: none;
       border-radius: 10px;
@@ -67,21 +56,6 @@
       font-size: 0.875em;
       display: block;
       margin-top: 5px;
-    }
-
-    .form-label {
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .form-section {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-title {
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      font-weight: 600;
     }
 
     .form-check-input:checked {
