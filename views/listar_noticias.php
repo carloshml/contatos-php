@@ -41,7 +41,7 @@ $noticias = fetchNoticias();
             </a>
             <div class="d-flex align-items-center">
                 <span class="me-3 d-none d-sm-inline"><?= $nome_usuario ?></span>
-                <a class="btn btn-outline-danger" href="../modal/logout.php">
+                <a class="btn btn-outline-danger" href="../services/logout.php">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
             </div>
@@ -161,7 +161,7 @@ $noticias = fetchNoticias();
                         </div>
                         <div class="col ">
                             <h3>Já possui uma conta?</h3>
-                            <form method="post" action="modal/valida_acesso.php" id="formLogin">
+                            <form method="post" action="services/valida_acesso.php" id="formLogin">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="campo_usuario" name="login"
                                         placeholder="Usuário" />

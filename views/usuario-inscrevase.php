@@ -177,7 +177,7 @@
                 <button type="button" id="btn_salvar_contato_sem_session" class="btn btn-primary">
                   <i class="fas fa-user-plus me-2"></i>Cadastrar
                 </button>
-                <a class="btn btn-outline-secondary" href="../modal/logout.php">
+                <a class="btn btn-outline-secondary" href="../services/logout.php">
                   <i class="fas fa-times me-2"></i>Cancelar
                 </a>
               </div>

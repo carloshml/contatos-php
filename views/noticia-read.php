@@ -68,7 +68,7 @@ $noticia = $_GET['noticia'] ?? '{}';
         <i class="fas fa-newspaper me-2"></i>Notícias Atuais
       </a>
       <?php if (isset($_SESSION['id_usuario'])): ?>
-        <a class="btn btn-outline-danger" href="../modal/logout.php">
+        <a class="btn btn-outline-danger" href="../services/logout.php">
           <i class="fas fa-sign-out-alt"></i> Sair
         </a>
       <?php endif; ?>

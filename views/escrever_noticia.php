@@ -44,7 +44,7 @@ $noticia = $_GET['noticia'] ?? '{}';
       </a>
       <div class="d-flex align-items-center">
         <span class="me-3 d-none d-sm-inline"><?= $nome_usuario ?></span>
-        <a class="btn btn-outline-danger" href="../modal/logout.php">
+        <a class="btn btn-outline-danger" href="../services/logout.php">
           <i class="fas fa-sign-out-alt"></i> Sair
         </a>
       </div>
@@ -58,7 +58,7 @@ $noticia = $_GET['noticia'] ?? '{}';
       </div>
       <div class="card-body p-4">
         <form method="post" enctype="multipart/form-data"
-          action="<?= !empty($_REQUEST['noticia_id']) ? '../modal/noticia_update.php' : '../modal/noticia_salvar.php' ?>"
+          action="<?= !empty($_REQUEST['noticia_id']) ? '../services/noticia_update.php' : '../services/noticia_salvar.php' ?>"
           id="formNoticia">
 
           <input type="hidden" name="noticia_id" id="noticia_id"

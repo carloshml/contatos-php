@@ -119,7 +119,7 @@ $noticias = $noticiaService->get5Noticia();
 
 <body>
 	<?php if (isset($_SESSION['id_usuario'])): ?>
-		<form method="post" enctype="multipart/form-data" action="modal/logout.php" class="form-btn-sair">
+		<form method="post" enctype="multipart/form-data" action="services/logout.php" class="form-btn-sair">
 			<button class="btn btn-sm btn-primary rounded-circle btn-sair " type="submit" title="Sair">
 				<i class="fas fa-sign-out-alt"></i>
 			</button>
@@ -254,7 +254,7 @@ $noticias = $noticiaService->get5Noticia();
 					</div>
 					<div class="col-md-7">
 						<h4 class="mb-4">Já possui uma conta?</h4>
-						<form method="post" action="modal/valida_acesso.php" id="formLogin">
+						<form method="post" action="services/valida_acesso.php" id="formLogin">
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control" id="campo_usuario" name="login"
 									placeholder="Usuário">

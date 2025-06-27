@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../DAO/usuarios.php';
-
+header('Content-Type: application/json');
 if (!empty($_GET['id'])) {
     $id = $_GET['id'];
     try {

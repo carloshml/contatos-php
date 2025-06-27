@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $('#btn_salvar_contato_sem_session').click(function () {
    
     $.ajax({
-      url: '../modal/usuario-create.php',
+      url: '../services/usuario-create.php',
       method: 'post',
       data: $('#form_contato').serialize(),
       success: function (data) {

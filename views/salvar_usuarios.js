@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $(document).ready(function () {
     $('#btn_salvar_contato').click(function () {
       $.ajax({
-        url: '../modal/usuario-create.php',
+        url: '../services/usuario-create.php',
         method: 'post',
         data: $('#form_contato').serialize(),
         success: function (data) {
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#btn-deletar-contato-concluir').click(function (e) {
       console.log(' deletar if ::: ', $('#btn-deletar-contato-concluir').attr('data-id'));
       $.ajax({
-        url: '../modal/usuario-delete.php',
+        url: '../services/usuario-delete.php',
         method: 'get',
         data: { id: $('#btn-deletar-contato-concluir').attr('data-id') },
         success: function (data) {
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#btn_concluir_update_contato').click(function () {
       const idContato = this.getAttribute('idUpdate');
       $.ajax({
-        url: '../modal/usuario-update.php',
+        url: '../services/usuario-update.php',
         method: 'post',
         data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
         success: function (data) {
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#btn_salvar_contato_sem_session').click(function () {
 
       $.ajax({
-        url: '../modal/usuario-create.php',
+        url: '../services/usuario-create.php',
         method: 'post',
         data: $('#form_contato').serialize(),
         success: function (data) {

@@ -142,7 +142,7 @@ if (!isset($_SESSION['id_usuario'])) {
         <i class="fas fa-address-book me-2"></i> Notícias Atuais - Usuários
       </a>
       <div class="d-flex align-items-center">
-        <a class="btn btn-outline-danger" href="../modal/logout.php">
+        <a class="btn btn-outline-danger" href="../services/logout.php">
           <i class="fas fa-sign-out-alt"></i> Sair
         </a>
       </div>
