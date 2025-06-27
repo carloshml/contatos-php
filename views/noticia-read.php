@@ -29,9 +29,7 @@ $noticia = $_GET['noticia'] ?? '{}';
     const erro = <?= json_encode($erro) ?>;
     const sucesso = <?= $sucesso ?>;
 
-    document.addEventListener("DOMContentLoaded", function () {
-
-      console.log('noticia :::: ', noticia)
+    document.addEventListener("DOMContentLoaded", function () {     
       if (noticia) {
         if (noticia.titulo) document.getElementById('news-title').textContent = noticia.titulo;
         if (noticia.texto) document.getElementById('news-content').textContent = noticia.texto;
@@ -57,12 +55,9 @@ $noticia = $_GET['noticia'] ?? '{}';
           document.getElementById('news-image').style.display = 'block';
         }
       }
-
       if (sucesso === 1) {
         alert('Notícia salva com sucesso!');
       }
-
-
     });
   </script>
   <script language="JavaScript" src="noticia-read.js"></script>
