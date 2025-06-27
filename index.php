@@ -114,6 +114,7 @@ $noticias = $noticiaService->get5Noticia();
 			background-color: #005588;
 		}
 	</style>
+	 
 </head>
 
 <body>
@@ -130,7 +131,7 @@ $noticias = $noticiaService->get5Noticia();
 					Oi, <?= $_SESSION['nome_usuario'] ?>
 				</div>
 				<div>
-					Gerenciar
+					Gerenciar Sistema
 				</div>
 			</button>
 		</form>
@@ -235,54 +236,58 @@ $noticias = $noticiaService->get5Noticia();
 
 
 
-<!-- Modal  login-->
-<div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel"> Entrar </h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
-					<span aria-hidden="true">&times;</span>
-				</button>
+<!-- Modal login-->
+<div class="modal fade" id="modal_login" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content" style="border-radius: 0.75rem;">
+			<div class="modal-header border-0" style="background-color: var(--primary-color); color: white;">
+				<h5 class="modal-title" id="loginModalLabel"></h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+					aria-label="Fechar"></button>
 			</div>
-			<div class="modal-body">
-				<div class="container align-middle">
-					<div class="form-row">
-						<div class="col-md-4">
-							<div class="jumbotron">
-								<h1>Bem vindo</h1>
+			<div class="modal-body p-4">
+				<div class="row g-4 align-items-center">
+					<div class="col-md-5 "
+						style="background-color: var(--secondary-color); color: white; border-radius: 0.5rem;">
+						<h2 class="mb-3 mt-3 text-center">Bem-vindo</h2>
+						<p>Entre para escrever notícias e para a gestão</p>
+					</div>
+					<div class="col-md-7">
+						<h4 class="mb-4">Já possui uma conta?</h4>
+						<form method="post" action="modal/valida_acesso.php" id="formLogin">
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="campo_usuario" name="login"
+									placeholder="Usuário">
+								<label for="campo_usuario">Usuário</label>
 							</div>
-						</div>
-						<div class="col ">
-							<h3>Já possui uma conta?</h3>
-							<form method="post" action="modal/valida_acesso.php" id="formLogin">
-								<div class="form-group">
-									<input type="text" class="form-control" id="campo_usuario" name="login"
-										placeholder="Usuário" />
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="campo_senha" name="senha"
+									placeholder="Senha">
+								<label for="campo_senha">Senha</label>
+							</div>
+							<?php
+							if ($erro == 1) {
+								echo '<div class="text-danger small mb-3">Usuário ou senha inválido(s)</div>';
+							}
+							if ($erro == 2) {
+								echo '<div class="text-warning small mb-3">É necessário entrar na página</div>';
+							}
+							?>
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary w-100">Entrar</button>
 								</div>
-								<div class="form-group">
-									<input type="password" class="form-control red" id="campo_senha" name="senha"
-										placeholder="Senha" />
+								<div class="col-md-6">
+									<a class="btn btn-outline-success w-100" href="views/usuario-inscrevase.php">
+										<i class="fas fa-user-plus"></i> Inscrever-se
+									</a>
 								</div>
-								<div>
-									<?php
-									if ($erro == 1) {
-										echo '<font color="FF0000">usuário ou senha inválido(s)</font>';
-									}
-									if ($erro == 2) {
-										echo '<font color="FF0000"> É necessário entrar na página</font>';
-									}
-									?>
-								</div>
-								<button type="buttom" class="btn btn-primary" id="btn_login">Entrar</button>
-							</form>
-						</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-			</div>
+			<div class="modal-footer border-0"></div>
 		</div>
 	</div>
 </div>
